@@ -14,8 +14,9 @@ return new class extends Migration {
             $table->id();
 
             $table->foreignId('created_by')
+                ->nullable()
                 ->constrained('users')
-                ->onDelete('cascade');
+                ->nullOnDelete();
 
             $table->string('order_code', 50)->unique();
 
@@ -39,6 +40,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('orders');
     }
 };

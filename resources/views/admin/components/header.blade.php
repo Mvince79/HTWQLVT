@@ -26,7 +26,12 @@
                 </li>
 
                 <li>
-                    <a class="dropdown-item text-danger" href="#">
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
+
+                    <a class="dropdown-item text-danger" href="#"
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         Đăng xuất
                     </a>
                 </li>

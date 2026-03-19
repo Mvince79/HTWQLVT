@@ -14,10 +14,12 @@ return new class extends Migration {
             $table->id();
 
             $table->foreignId('user_id')
+                ->unique()
                 ->constrained('users')
                 ->onDelete('cascade');
 
-            // $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
+            $table->string('license_number')->nullable();
+            $table->string('vehicle_type')->nullable();
 
             $table->enum('working_status', ['idle', 'assigned', 'delivering', 'offline'])
                 ->default('idle');
@@ -31,6 +33,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('drivers');
     }
 };

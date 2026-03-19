@@ -15,10 +15,10 @@ return new class extends Migration {
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('phone', 20)->nullable();
+            $table->string('phone', 10)->unique();
 
-            $table->enum('role', ['admin', 'driver']);
-            $table->enum('status', ['active', 'inactive'])->default('active');
+            $table->enum('role', ['driver', 'admin'])->default('driver');
+            $table->boolean('is_active')->default(true);
 
             $table->timestamps();
         });
@@ -44,6 +44,8 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('users');
+        Schema::dropIfExists('password_reset_tokens');
+        Schema::dropIfExists('sessions');
     }
 };

@@ -13,20 +13,19 @@ return new class extends Migration {
         Schema::create('fuel_logs', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('trip_id')
-                ->nullable()
-                ->constrained('trips')
-                ->onDelete('set null');
-
             $table->foreignId('vehicle_id')
-                ->nullable()
-                ->constrained('vehicles')
-                ->onDelete('set null');
+                ->constrained()
+                ->restrictOnDelete();
 
             $table->foreignId('driver_id')
+                ->constrained()
+                ->restrictOnDelete();
+
+            $table->foreignId('trip_id')
                 ->nullable()
-                ->constrained('drivers')
-                ->onDelete('set null');
+                ->constrained()
+                ->nullOnDelete();
+
 
             $table->decimal('fuel_amount', 10, 2);
             $table->text('note')->nullable();
@@ -40,6 +39,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('fuel_logs');
     }
 };

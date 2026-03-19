@@ -17,7 +17,7 @@ return new class extends Migration {
             $table->enum('type', ['light_truck', 'medium_truck', 'heavy_truck', 'container_truck'])
                 ->default('light_truck');
 
-            $table->enum('status', ['active', 'inactive'])->default('active');
+            $table->boolean('is_active')->default(true);
 
             $table->enum('working_status', ['available', 'in_use', 'maintenance'])
                 ->default('available');
@@ -31,6 +31,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('vehicles');
     }
 };
