@@ -28,7 +28,10 @@ class UserFactory extends Factory
             'phone' => '0' . fake()->numberBetween(300000000, 999999999),
             'email' => fake()->unique()->safeEmail(),
             'password' => static::$password ??= Hash::make('password'),
+<<<<<<< HEAD
             'role' => fake()->randomElement(['driver', 'admin']),
+=======
+>>>>>>> 043c070 ([Database]: Sửa migrations và UserSeeder, UserFactory)
         ];
     }
 
