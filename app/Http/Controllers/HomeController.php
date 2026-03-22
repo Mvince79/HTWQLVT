@@ -12,11 +12,11 @@ class HomeController extends Controller
         $user = Auth::user();
 
         if ($user->role === 'admin') {
-            return redirect('/admin');
+            return redirect()->route('admin.index');
         }
 
         if ($user->role === 'driver') {
-            return redirect('/driver');
+            return redirect()->route('driver.index');
         }
 
         abort(403);

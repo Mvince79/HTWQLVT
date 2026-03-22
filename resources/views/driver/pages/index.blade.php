@@ -1,4 +1,4 @@
-@extends('client.layouts.main')
+@extends('driver.layouts.main')
 
 @section('content')
 
