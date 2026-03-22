@@ -1,0 +1,27 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
+class Driver extends Model
+{
+    use HasFactory;
+
+    protected $fillable = [
+        'user_id',
+        'phone',
+        'license_number',
+        'license_type',
+        'license_expiry',
+        'vehicle_type',
+        'plate_number',
+        'working_status',
+    ];
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+    
+}

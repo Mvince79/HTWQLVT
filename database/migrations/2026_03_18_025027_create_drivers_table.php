@@ -16,13 +16,24 @@ return new class extends Migration {
             $table->foreignId('user_id')
                 ->unique()
                 ->constrained('users')
-                ->onDelete('cascade');
+                ->cascadeOnDelete();
 
-            $table->string('license_number')->nullable();
-            $table->string('vehicle_type')->nullable();
+            $table->string('phone')->nullable();
 
-            $table->enum('working_status', ['idle', 'assigned', 'delivering', 'offline'])
-                ->default('idle');
+            $table->string('license_number')->unique()->nullable();
+            $table->string('license_type')->nullable();
+            $table->date('license_expiry')->nullable();
+
+            $table->enum('vehicle_type', ['truck', 'container', 'tanker'])->nullable();
+            $table->string('plate_number')->nullable();
+
+            $table->enum('working_status', [
+                'idle',
+                'assigned',
+                'delivering',
+                'resting',
+                'inactive'
+            ])->default('idle');
 
             $table->timestamps();
         });
