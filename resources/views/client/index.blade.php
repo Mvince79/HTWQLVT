@@ -1,129 +1,182 @@
 @extends('client.layouts.main')
+
 @section('content')
 
+<div class="container-fluid">
 
-
-
-<div class="container mt-4">
-
-    <!-- FILTER -->
-    <div class="mb-3">
-        <button class="btn btn-secondary btn-sm">Tất cả</button>
-        <button class="btn btn-warning btn-sm">Đang giao</button>
-        <button class="btn btn-success btn-sm">Hoàn thành</button>
+    <!-- HEADER -->
+    <div class="mb-4">
+        <h3 class="fw-bold">Tài xế</h3>
+        <p class="text-muted">Chuyến xe của bạn</p>
     </div>
 
-    <!-- CARD 1 -->
-    <div class="card mb-3 shadow-sm">
-        <div class="card-body">
+    <!-- THỐNG KÊ -->
+    <div class="row mb-4">
 
-            <div class="d-flex justify-content-between">
-                <div>
-                    <h5 class="card-title">ORD12345</h5>
-                    <p class="mb-1">🚛 Thép cuộn</p>
-                    <p class="mb-1">⚖️ 8500 kg</p>
+        <div class="col-md-3">
+            <div class="card shadow border-0">
+                <div class="card-body">
+                    <h6 class="text-muted">Tổng chuyến</h6>
+                    <h3 class="fw-bold">12</h3>
                 </div>
-
-                <span class="badge bg-warning text-dark">Đang giao</span>
             </div>
-
-            <hr>
-
-            <p><strong>📍 Lấy hàng:</strong> Kho A, Quận 1</p>
-            <p><strong>📦 Giao hàng:</strong> KCN Sóng Thần</p>
-
-            <div class="d-flex flex-wrap gap-2">
-                <select class="form-select form-select-sm w-auto">
-                    <option>Chưa bắt đầu</option>
-                    <option selected>Đang giao</option>
-                    <option>Hoàn thành</option>
-                    <option>Hủy</option>
-                </select>
-
-                <button class="btn btn-primary btn-sm">Cập nhật</button>
-
-                <input type="number" class="form-control form-control-sm w-auto" placeholder="Lít xăng">
-                <button class="btn btn-success btn-sm">Lưu xăng</button>
-            </div>
-
         </div>
-    </div>
 
-    <!-- CARD 2 -->
-    <div class="card mb-3 shadow-sm">
-        <div class="card-body">
-
-            <div class="d-flex justify-content-between">
-                <div>
-                    <h5 class="card-title">ORD12346</h5>
-                    <p class="mb-1">🚛 Máy lạnh</p>
-                    <p class="mb-1">⚖️ 2000 kg</p>
+        <div class="col-md-3">
+            <div class="card shadow border-0">
+                <div class="card-body">
+                    <h6 class="text-muted">Đang chạy</h6>
+                    <h3 class="fw-bold text-success">3</h3>
                 </div>
-
-                <span class="badge bg-secondary">Chưa bắt đầu</span>
             </div>
-
-            <hr>
-
-            <p><strong>📍 Lấy hàng:</strong> Nhà Bè</p>
-            <p><strong>📦 Giao hàng:</strong> Quận 9</p>
-
-            <div class="d-flex flex-wrap gap-2">
-                <select class="form-select form-select-sm w-auto">
-                    <option selected>Chưa bắt đầu</option>
-                    <option>Đang giao</option>
-                    <option>Hoàn thành</option>
-                    <option>Hủy</option>
-                </select>
-
-                <button class="btn btn-primary btn-sm">Cập nhật</button>
-
-                <input type="number" class="form-control form-control-sm w-auto" placeholder="Lít xăng">
-                <button class="btn btn-success btn-sm">Lưu xăng</button>
-            </div>
-
         </div>
+
+        <div class="col-md-3">
+            <div class="card shadow border-0">
+                <div class="card-body">
+                    <h6 class="text-muted">Chờ</h6>
+                    <h3 class="fw-bold text-warning">5</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow border-0">
+                <div class="card-body">
+                    <h6 class="text-muted">Hoàn thành</h6>
+                    <h3 class="fw-bold text-primary">4</h3>
+                </div>
+            </div>
+        </div>
+
     </div>
 
-    <!-- CARD 3 -->
-    <div class="card mb-3 shadow-sm">
-        <div class="card-body">
+    <!-- DANH SÁCH CHUYẾN -->
+    <div class="row">
 
-            <div class="d-flex justify-content-between">
-                <div>
-                    <h5 class="card-title">ORD12347</h5>
-                    <p class="mb-1">🚛 Gạch xây</p>
-                    <p class="mb-1">⚖️ 10000 kg</p>
+        <!-- CARD -->
+        <div class="col-md-4 mb-4">
+            <div class="card trip-card border-0 shadow-sm">
+
+                <img src="https://via.placeholder.com/400x200" class="card-img-top">
+
+                <div class="card-body">
+
+                    <h5 class="fw-bold">Cần Thơ → TP.HCM</h5>
+
+                    <p class="text-muted mb-2">
+                        🕒 08:00 <br>
+                        🚛 Xe: 51A-12345
+                    </p>
+
+                    <!-- Trạng thái -->
+                    <label class="form-label">Trạng thái</label>
+                    <select class="form-select status">
+                        <option>Đang chạy</option>
+                        <option>Hoàn thành</option>
+                    </select>
+
+                    <!-- Nhiên liệu -->
+                    <label class="form-label mt-2">Nhiên liệu (L)</label>
+                    <input type="number" class="form-control fuel" placeholder="Nhập số lít">
+
                 </div>
 
-                <span class="badge bg-success">Hoàn thành</span>
+                <!-- Footer -->
+                <div class="card-footer bg-white border-0 d-flex justify-content-between align-items-center">
+                    
+                    <span class="badge bg-success">Đang thực hiện</span>
+
+                    <button class="btn btn-success btn-sm save-btn">
+                         Lưu
+                    </button>
+
+                </div>
+
             </div>
+        </div>
+ <div class="col-md-4 mb-4">
+            <div class="card trip-card border-0 shadow-sm">
 
-            <hr>
+                <img src="https://via.placeholder.com/400x200" class="card-img-top">
 
-            <p><strong>📍 Lấy hàng:</strong> Hóc Môn</p>
-            <p><strong>📦 Giao hàng:</strong> Đồng Nai</p>
+                <div class="card-body">
 
-            <div class="d-flex flex-wrap gap-2">
-                <select class="form-select form-select-sm w-auto">
-                    <option>Chưa bắt đầu</option>
-                    <option>Đang giao</option>
-                    <option selected>Hoàn thành</option>
-                    <option>Hủy</option>
-                </select>
+                    <h5 class="fw-bold">Cần Thơ → TP.HCM</h5>
 
-                <button class="btn btn-primary btn-sm">Cập nhật</button>
+                    <p class="text-muted mb-2">
+                        🕒 08:00 <br>
+                        🚛 Xe: 51A-12345
+                    </p>
 
-                <input type="number" class="form-control form-control-sm w-auto" placeholder="Lít xăng">
-                <button class="btn btn-success btn-sm">Lưu xăng</button>
+                    <!-- Trạng thái -->
+                    <label class="form-label">Trạng thái</label>
+                    <select class="form-select status">
+                        <option>Đang chạy</option>
+                        <option>Hoàn thành</option>
+                    </select>
+
+                    <!-- Nhiên liệu -->
+                    <label class="form-label mt-2">Nhiên liệu (L)</label>
+                    <input type="number" class="form-control fuel" placeholder="Nhập số lít">
+
+                </div>
+
+                <!-- Footer -->
+                <div class="card-footer bg-white border-0 d-flex justify-content-between align-items-center">
+                    
+                    <span class="badge bg-success">Đang thực hiện</span>
+
+                    <button class="btn btn-success btn-sm save-btn">
+                         Lưu
+                    </button>
+
+                </div>
+
             </div>
+        </div>
+         <div class="col-md-4 mb-4">
+            <div class="card trip-card border-0 shadow-sm">
 
+                <img src="https://via.placeholder.com/400x200" class="card-img-top">
+
+                <div class="card-body">
+
+                    <h5 class="fw-bold">Cần Thơ → TP.HCM</h5>
+
+                    <p class="text-muted mb-2">
+                        🕒 08:00 <br>
+                        🚛 Xe: 51A-12345
+                    </p>
+
+                    <!-- Trạng thái -->
+                    <label class="form-label">Trạng thái</label>
+                    <select class="form-select status">
+                        <option>Đang chạy</option>
+                        <option>Hoàn thành</option>
+                    </select>
+
+                    <!-- Nhiên liệu -->
+                    <label class="form-label mt-2">Nhiên liệu (L)</label>
+                    <input type="number" class="form-control fuel" placeholder="Nhập số lít">
+
+                </div>
+
+                <!-- Footer -->
+                <div class="card-footer bg-white border-0 d-flex justify-content-between align-items-center">
+                    
+                    <span class="badge bg-success">Đang thực hiện</span>
+
+                    <button class="btn btn-success btn-sm save-btn">
+                         Lưu
+                    </button>
+
+                </div>
+
+            </div>
         </div>
     </div>
 
 </div>
-
-
-
 
 @endsection

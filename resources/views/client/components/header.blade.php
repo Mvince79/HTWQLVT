@@ -1,39 +1,13 @@
-<nav class="navbar bg-white border-bottom px-4" style="height:70px;">
-    <div class="container-fluid">
+<nav class="navbar navbar-dark bg-dark px-3">
 
-        <h5 class="mb-0 fw-semibold">Dashboard</h5>
+    <!-- Toggle sidebar -->
+    <button class="btn btn-outline-light" id="menu-toggle">☰</button>
 
-        <div class="dropdown">
+    <span class="navbar-brand ms-3">Tài xế</span>
 
-            <button class="btn d-flex align-items-center gap-2" type="button" id="dropdownMenuButton"
-                data-bs-toggle="dropdown" aria-expanded="false">
-
-                <span class="text-muted">Tài khoản</span>
-
-                <div class="bg-secondary rounded-circle" style="width:35px; height:35px;"></div>
-            </button>
-
-            <ul class="dropdown-menu dropdown-menu-end shadow-sm">
-
-                <li>
-                    <a class="dropdown-item" href="#">
-                        Thông tin tài khoản
-                    </a>
-                </li>
-
-                <li>
-                    <hr class="dropdown-divider">
-                </li>
-
-                <li>
-                    <a class="dropdown-item text-danger" href="#">
-                        Đăng xuất
-                    </a>
-                </li>
-
-            </ul>
-
-        </div>
-
+    <div class="ms-auto">
+        <span class="text-white me-3">Xin chào, Tài xế</span>
+        <a href="#" class="btn btn-outline-light btn-sm">Đăng xuất</a>
     </div>
+
 </nav>
