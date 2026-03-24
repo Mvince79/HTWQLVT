@@ -8,6 +8,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 // ADMIN
 Route::get('/admin', [AdminController::class, 'index']);
 Route::get('login', function () {
@@ -16,6 +17,8 @@ Route::get('login', function () {
 // CLIENT
 Route::get('/client', [DriverController::class, 'index']);
 =======
+=======
+>>>>>>> 0055d0b ([Auth][PHP] - Login: Thêm chức năng login, logout và phân quyền người dùng)
 // Admin controller
 use App\Http\Controllers\Admin\AdminController;
 
@@ -39,4 +42,7 @@ Route::prefix('/driver')
             return view('welcome');
         });
     });
+<<<<<<< HEAD
+>>>>>>> 0055d0b ([Auth][PHP] - Login: Thêm chức năng login, logout và phân quyền người dùng)
+=======
 >>>>>>> 0055d0b ([Auth][PHP] - Login: Thêm chức năng login, logout và phân quyền người dùng)

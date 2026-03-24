@@ -6,8 +6,7 @@
 
         <li class="nav-item">
             <a class="nav-link rounded px-3 py-2
-                {{ request()->routeIs('admin.dashboard') ? 'active bg-primary text-white' : 'text-dark' }}"
-                href="">
+                {{ request()->routeIs('admin.dashboard') ? 'active bg-primary text-white' : 'text-dark' }}" href="">
                 Dashboard
             </a>
         </li>
