@@ -20,12 +20,12 @@ Route::controller(AuthController::class)->group(function () {
 });
 
 // Admin
-Route::prefix('/admin')
-    ->middleware(['auth', 'role:admin'])
-    ->name('admin.')
-    ->group(function () {
-        Route::get('/', [AdminController::class, 'index'])->name('index');
-    });
+// Route::prefix('/admin')
+//     ->middleware(['auth', 'role:admin'])
+//     ->name('admin.')
+//     ->group(function () {
+//         Route::get('/', [AdminController::class, 'index'])->name('index');
+//     });
 
 // Driver
 Route::prefix('/driver')
