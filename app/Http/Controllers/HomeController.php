@@ -12,7 +12,7 @@ class HomeController extends Controller
         $user = Auth::user();
 
         if ($user->role === 'admin') {
-            return redirect()->route('admin.index');
+            return redirect()->route('filament.admin.pages.dashboard');
         }
 
         if ($user->role === 'driver') {

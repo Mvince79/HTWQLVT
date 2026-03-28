@@ -25,10 +25,11 @@ class UserFactory extends Factory
     {
         return [
             'name' => fake()->name(),
-            'phone' => '0' . fake()->numberBetween(300000000, 999999999),
             'email' => fake()->unique()->safeEmail(),
-            'password' => static::$password ??= Hash::make('password'),
+            'password' => Hash::make('password'),
+            'phone' => '0' . fake()->unique()->numberBetween(300000000, 999999999),
             'role' => fake()->randomElement(['driver', 'admin']),
+            'is_active' => true,
         ];
     }
 

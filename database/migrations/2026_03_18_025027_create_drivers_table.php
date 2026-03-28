@@ -27,6 +27,7 @@ return new class extends Migration {
             $table->enum('vehicle_type', ['truck', 'container', 'tanker'])->nullable();
             $table->string('plate_number')->nullable();
 
+            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
             $table->enum('working_status', [
                 'idle',
                 'assigned',

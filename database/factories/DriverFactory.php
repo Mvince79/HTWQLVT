@@ -15,22 +15,26 @@ class DriverFactory extends Factory
      *
      * @return array<string, mixed>
      */
-   public function definition(): array
-{
-    return [
-        'user_id' => User::factory(), // tự tạo user luôn
+    public function definition(): array
+    {
+        return [
+            'user_id' => User::factory()->state(['role' => 'driver']),
 
-        'phone' => fake()->phoneNumber(),
-        'license_number' => fake()->unique()->bothify('GPLX#####'),
-        'license_type' => fake()->randomElement(['B2', 'C', 'FC']),
-        'license_expiry' => fake()->date(),
+            'phone' => fake()->unique()->phoneNumber(),
+            'license_number' => fake()->unique()->bothify('GPLX#####'),
+            'license_type' => fake()->randomElement(['B2', 'C', 'FC']),
+            'license_expiry' => fake()->date(),
+            'vehicle_type' => fake()->randomElement(['truck', 'container', 'tanker']),
+            'plate_number' => fake()->unique()->bothify('##A-#####'),
+            'status' => 'approved',
+            'working_status' => 'idle',
+        ];
+    }
 
-        'vehicle_type' => fake()->randomElement(['truck', 'container', 'tanker']),
-        'plate_number' => fake()->bothify('##A-#####'),
-
-        'working_status' => fake()->randomElement([
-            'idle', 'assigned', 'delivering'
-        ]),
-    ];
-}
+    public function unverified(): static
+    {
+        return $this->state(fn(array $attributes) => [
+            'email_verified_at' => null,
+        ]);
+    }
 }

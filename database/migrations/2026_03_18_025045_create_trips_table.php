@@ -12,31 +12,14 @@ return new class extends Migration {
     {
         Schema::create('trips', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('driver_id')->constrained('drivers')->cascadeOnDelete();
 
-            $table->foreignId('driver_id')
-                ->nullable()
-                ->constrained('drivers')
-                ->onDelete('set null');
+            $table->unsignedBigInteger('vehicle_id')->nullable();
+            $table->unsignedBigInteger('order_id')->nullable();
 
-            $table->foreignId('vehicle_id')
-                ->nullable()
-                ->constrained('vehicles')
-                ->onDelete('set null');
-
-            $table->foreignId('order_id')
-                ->constrained('orders')
-                ->cascadeOnDelete();
-
-            $table->dateTime('start_time')->nullable();
+            $table->dateTime('start_time');
             $table->dateTime('end_time')->nullable();
-
-            $table->enum('status', [
-                'not_started',
-                'in_progress',
-                'completed',
-                'cancelled'
-            ])->default('not_started');
-
+            $table->enum('status', ['not_started', 'in_progress', 'completed', 'cancelled'])->default('not_started');
             $table->timestamps();
         });
     }
