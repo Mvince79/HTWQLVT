@@ -13,12 +13,13 @@ return new class extends Migration {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('created_by')
+            $table->foreignId('user_id')
                 ->nullable()
                 ->constrained('users')
                 ->nullOnDelete();
 
-            $table->string('order_code', 50)->unique();
+            $table->string('code', 50)->unique();
+            $table->float('price');
 
             $table->text('cargo_name');
             $table->float('cargo_weight');
@@ -26,10 +27,10 @@ return new class extends Migration {
             $table->text('pickup_location');
             $table->text('delivery_location');
 
-            $table->dateTime('scheduled_date')->nullable();
+            $table->dateTime('scheduled_date')->nullable()->index();
 
             $table->enum('status', ['pending', 'assigned', 'delivering', 'completed', 'cancelled'])
-                ->default('pending');
+                ->default('pending')->index();
 
             $table->timestamps();
         });
