@@ -19,6 +19,8 @@ class DriverResource extends Resource
     protected static ?string $model = Driver::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::Identification;
+    protected static ?string $navigationLabel = 'Tài xế';
+
 
     public static function form(Schema $schema): Schema
     {

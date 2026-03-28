@@ -19,6 +19,8 @@ class TripResource extends Resource
     protected static ?string $model = Trip::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::Map;
+    protected static ?string $navigationLabel = 'Chuyến';
+
 
     public static function form(Schema $schema): Schema
     {
