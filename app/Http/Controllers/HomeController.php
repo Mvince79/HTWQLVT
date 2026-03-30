@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Auth;
+use Illuminate\Support\Facades\Auth;
+
 
 class HomeController extends Controller
 {
@@ -11,14 +12,16 @@ class HomeController extends Controller
     {
         $user = Auth::user();
 
-        if ($user->role === 'admin') {
-            return redirect()->route('filament.admin.pages.dashboard');
+        if ($user && $user->role === 'admin') {
+            return redirect('/admin');
         }
 
-        if ($user->role === 'driver') {
+        if ($user && $user->role === 'driver') {
             return redirect()->route('driver.index');
         }
 
-        abort(403);
+        Auth::logout();
+        abort(403, 'Tài khoản không có quyền truy cập.');
     }
+
 }

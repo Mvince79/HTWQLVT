@@ -24,8 +24,11 @@ class AdminPanelProvider extends PanelProvider
     public function panel(Panel $panel): Panel
     {
         return $panel
+            ->default()
             ->id('admin')
             ->path('admin')
+            ->login()
+            ->homeUrl('/')
             ->colors([
                 'primary' => Color::Amber,
             ])
@@ -49,6 +52,7 @@ class AdminPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
+                \App\Http\Middleware\RedirectIfDriver::class,
             ])
             ->authMiddleware([
                 Authenticate::class,
