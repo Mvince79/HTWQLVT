@@ -22,4 +22,11 @@ class ListOrders extends ListRecords
     {
         return [];
     }
+
+    protected function getListeners(): array
+    {
+        return [
+            'echo:orders,.order.updated' => '$refresh',
+        ];
+    }
 }

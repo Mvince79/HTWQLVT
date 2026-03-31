@@ -28,4 +28,11 @@ class ViewOrder extends ViewRecord
             DeleteAction::make()->modalHeading('Xóa đơn hàng'),
         ];
     }
+
+    protected function getListeners(): array
+    {
+        return [
+            'echo:orders,.order.updated' => '$refresh',
+        ];
+    }
 }
