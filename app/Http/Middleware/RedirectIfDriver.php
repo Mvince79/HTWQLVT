@@ -10,12 +10,24 @@ class RedirectIfDriver
 {
     public function handle(Request $request, Closure $next)
     {
-        $user = Auth::user();
-
-        if ($user && $user->role === 'driver' && $request->is('admin*')) {
-            return redirect('/');
+        if (
+            Auth::check() &&
+            Auth::user()->role === 'driver' &&
+            $request->is('admin*') &&
+            !$request->is('admin/login')
+        ) {
+            return redirect()->route('driver.dashboard');
         }
+
+        // if (
+        //     Auth::check() &&
+        //     Auth::user()->role === 'driver'
+        // ) {
+        //     return redirect()->route('driver.dashboard');
+        // }
 
         return $next($request);
     }
+
+
 }

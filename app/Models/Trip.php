@@ -14,4 +14,14 @@ class Trip extends Model
     {
         return $this->belongsTo(Driver::class);
     }
+
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
+    }
+
+    public function vehicle()
+    {
+        return $this->belongsTo(Vehicle::class);
+    }
 }

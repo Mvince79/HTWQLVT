@@ -2,35 +2,25 @@
 
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\Driver\DriverController;
 use App\Http\Controllers\HomeController;
+use App\Livewire\Driver\Dashboard;
 use Illuminate\Support\Facades\Auth;
 
 
 
+// Route::get('/', [HomeController::class, 'index'])->middleware('auth');
+Route::get('/', [HomeController::class, 'index'])->middleware('auth:web');
 
 
 
+// DRIVER
+Route::middleware(['auth:web', 'role:driver'])->group(function () {
+    Route::get('/driver/dashboard', Dashboard::class)
+        ->name('driver.dashboard');
+});
 
-Route::get('/', [HomeController::class, 'index'])->middleware('auth');
-
-
-
-
-Route::prefix('/driver')
-    ->middleware(['auth', 'role:driver'])
-    ->name('driver.')
-    ->group(function () {
-        Route::get('/', [DriverController::class, 'index'])->name('index');
-    });
-
-Route::redirect('/login', '/admin/login')->name('login');
-
-
-
-
+// LOGOUT
 Route::post('/logout', function () {
     Auth::logout();
-    return redirect('/admin/login');
+    return redirect('/admin/login'); // chuẩn filament
 })->name('logout');

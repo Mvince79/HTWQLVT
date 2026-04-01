@@ -16,6 +16,8 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'auth' => Authenticate::class,
             'role' => CheckRole::class,
+            'redirect.driver' => \App\Http\Middleware\RedirectIfDriver::class,
+
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

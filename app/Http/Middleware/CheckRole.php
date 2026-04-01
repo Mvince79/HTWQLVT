@@ -8,15 +8,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
 class CheckRole
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     */
-    public function handle($request, Closure $next, ...$roles)
+    public function handle($request, Closure $next, $role)
     {
-        if (!Auth::check() || !in_array(Auth::user()->role, $roles)) {
-            abort(403, 'Bạn không có quyền truy cập.');
+        if (!Auth::check() || Auth::user()->role !== $role) {
+            abort(403);
         }
 
         return $next($request);

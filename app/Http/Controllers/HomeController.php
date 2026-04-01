@@ -12,16 +12,20 @@ class HomeController extends Controller
     {
         $user = Auth::user();
 
-        if ($user && $user->role === 'admin') {
-            return redirect('/admin');
+        if (!$user) {
+            return redirect('/admin/login');
         }
 
-        if ($user && $user->role === 'driver') {
-            return redirect()->route('driver.index');
+        if ($user->role === 'admin') {
+            return redirect('/admin'); 
+        }
+
+        if ($user->role === 'driver') {
+            return redirect()->route('driver.dashboard');
         }
 
         Auth::logout();
-        abort(403, 'Tài khoản không có quyền truy cập.');
+        return redirect('/admin/login');
     }
 
 }
