@@ -23,7 +23,7 @@ class TripFactory extends Factory
             'order_id' => rand(1, 50),
             'start_time' => now()->subHours(rand(1, 12)),
             'end_time' => now()->addHours(rand(1, 12)),
-            'status' => fake()->randomElement(['not_started', 'in_progress', 'completed']),
+            'status' => fake()->randomElement(['not_started', 'in_progress', 'completed', 'cancel']),
         ];
     }
 }
