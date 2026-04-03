@@ -10,17 +10,17 @@ use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
-use Filament\Widgets\AccountWidget;
-use Filament\Widgets\FilamentInfoWidget;
+use App\Filament\Admin\Widgets\TopDrivers;
+use App\Filament\Admin\Widgets\VehicleStatusOverview;
+use App\Filament\Admin\Widgets\OrdersChart;
+use App\Filament\Admin\Widgets\RevenueChart;
+use App\Filament\Admin\Widgets\StatsOverview;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
-use Filament\Support\Assets\Js;
-use Filament\Support\Facades\FilamentAsset;
-use Illuminate\Support\Facades\Vite;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -42,8 +42,11 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Admin/Widgets'), for: 'App\Filament\Admin\Widgets')
             ->widgets([
-                AccountWidget::class,
-                FilamentInfoWidget::class,
+                StatsOverview::class,
+                OrdersChart::class,
+                RevenueChart::class,
+                TopDrivers::class,
+                VehicleStatusOverview::class,
             ])
             ->renderHook(
                 'panels::body.end',

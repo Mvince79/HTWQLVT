@@ -6,6 +6,7 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
 class DriversTable
@@ -32,6 +33,17 @@ class DriversTable
                         'delivering' => 'Đang đi hàng',
                         default => $state,
                     }),
+            ])
+            ->filters([
+                SelectFilter::make('working_status')
+                    ->label('Trạng thái')
+                    ->options([
+                        'idle' => 'Đang rảnh',
+                        'assigned' => 'Đã giao việc',
+                        'delivering' => 'Đang đi hàng',
+                        'resting' => 'Đang nghỉ',
+                        'inactive' => 'Ngưng hoạt động',
+                    ]),
             ])
             ->recordActions([
                 ViewAction::make(),

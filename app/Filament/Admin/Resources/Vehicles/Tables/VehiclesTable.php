@@ -64,6 +64,12 @@ class VehiclesTable
                         'in_use' => 'Đang sử dụng',
                         'maintenance' => 'Đang bảo trì',
                     ]),
+                Tables\Filters\SelectFilter::make('is_active')
+                    ->label('Hoạt động')
+                    ->options([
+                        '1' => 'Hoạt động',
+                        '0' => 'Ngưng hoạt động',
+                    ]),
             ])
 
             ->recordActions([
