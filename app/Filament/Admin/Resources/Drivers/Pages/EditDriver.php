@@ -16,4 +16,11 @@ class EditDriver extends EditRecord
             DeleteAction::make(),
         ];
     }
+
+    protected function getListeners(): array
+    {
+        return [
+            'echo:drivers,.driver.changed' => '$refresh',
+        ];
+    }
 }

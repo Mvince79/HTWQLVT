@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use App\Events\OrderUpdated;
+use App\Events\OrderChanged;
 
 class Order extends Model
 {
@@ -31,8 +31,19 @@ class Order extends Model
 
     protected static function booted(): void
     {
-        static::saved(function (Order $order) {
-            OrderUpdated::dispatch($order->id, $order->status);
-        });
+        static::created(
+            fn(Order $order) =>
+            OrderChanged::dispatch($order->id, 'created')
+        );
+
+        static::updated(
+            fn(Order $order) =>
+            OrderChanged::dispatch($order->id, 'updated')
+        );
+
+        static::deleted(
+            fn(Order $order) =>
+            OrderChanged::dispatch($order->id, 'deleted')
+        );
     }
 }

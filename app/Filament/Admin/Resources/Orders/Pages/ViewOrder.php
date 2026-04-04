@@ -32,7 +32,7 @@ class ViewOrder extends ViewRecord
     protected function getListeners(): array
     {
         return [
-            'echo:orders,.order.updated' => '$refresh',
+            'echo:orders,.order.changed' => '$refresh',
         ];
     }
 }

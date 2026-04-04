@@ -24,4 +24,11 @@ class ListTrips extends ListRecords
             TripCalendarWidget::class,
         ];
     }
+
+    protected function getListeners(): array
+    {
+        return [
+            'echo:trips,.trip.changed' => '$refresh',
+        ];
+    }
 }

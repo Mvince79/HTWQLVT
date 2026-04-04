@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\TripChanged;
 use Carbon\Carbon;
 use Guava\Calendar\Contracts\Eventable;
 use Guava\Calendar\ValueObjects\CalendarEvent;
@@ -26,6 +27,24 @@ class Trip extends Model implements Eventable
     public function vehicle()
     {
         return $this->belongsTo(Vehicle::class);
+    }
+
+    protected static function booted(): void
+    {
+        static::created(
+            fn(Trip $trip) =>
+            TripChanged::dispatch($trip->id, 'created')
+        );
+
+        static::updated(
+            fn(Trip $trip) =>
+            TripChanged::dispatch($trip->id, 'updated')
+        );
+
+        static::deleted(
+            fn(Trip $trip) =>
+            TripChanged::dispatch($trip->id, 'deleted')
+        );
     }
 
     public function toCalendarEvent(): CalendarEvent

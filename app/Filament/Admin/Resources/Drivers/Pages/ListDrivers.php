@@ -16,4 +16,11 @@ class ListDrivers extends ListRecords
             CreateAction::make(),
         ];
     }
+
+    protected function getListeners(): array
+    {
+        return [
+            'echo:drivers,.driver.changed' => '$refresh',
+        ];
+    }
 }

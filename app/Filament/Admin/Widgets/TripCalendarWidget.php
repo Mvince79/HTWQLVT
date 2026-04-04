@@ -15,6 +15,18 @@ class TripCalendarWidget extends CalendarWidget
     protected CalendarViewType $calendarView = CalendarViewType::DayGridMonth;
     protected bool $eventClickEnabled = true;
     protected ?string $defaultEventClickAction = 'edit';
+    protected function getListeners(): array
+    {
+        return [
+            'echo:trips,.trip.changed' => 'refreshCalendar',
+        ];
+    }
+
+    public function refreshCalendar(): void
+    {
+        $this->dispatch('calendar--refresh');
+    }
+
     protected function getEvents(FetchInfo $info): Collection|array|Builder
     {
         return Trip::query()

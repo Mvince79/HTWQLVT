@@ -4,36 +4,45 @@ namespace App\Events;
 
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Broadcasting\PresenceChannel;
+use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class OrderUpdated implements ShouldBroadcast
+class TripChanged
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    /**
+     * Create a new event instance.
+     */
     public function __construct(
-        public int $orderId,
-        public string $status,
+        public int $tripId,
+        public string $action,
     ) {
     }
 
+    /**
+     * Get the channels the event should broadcast on.
+     *
+     * @return array<int, \Illuminate\Broadcasting\Channel>
+     */
     public function broadcastOn(): array
     {
-        return [new Channel('orders')];
+        return [new Channel('trips')];
     }
 
-    // Tên event client sẽ nhận
     public function broadcastAs(): string
     {
-        return 'order.updated';
+        return 'trip.changed';
     }
 
     public function broadcastWith(): array
     {
         return [
-            'order_id' => $this->orderId,
-            'status' => $this->status,
+            'trip_id' => $this->tripId,
+            'action' => $this->action,
         ];
     }
 }

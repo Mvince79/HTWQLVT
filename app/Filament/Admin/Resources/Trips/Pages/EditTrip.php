@@ -16,4 +16,11 @@ class EditTrip extends EditRecord
             DeleteAction::make(),
         ];
     }
+
+    protected function getListeners(): array
+    {
+        return [
+            'echo:trips,.trip.changed' => '$refresh',
+        ];
+    }
 }

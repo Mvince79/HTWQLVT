@@ -33,4 +33,11 @@ class EditOrder extends EditRecord
             'record' => $this->record,
         ]);
     }
+
+    protected function getListeners(): array
+    {
+        return [
+            'echo:orders,.order.changed' => '$refresh',
+        ];
+    }
 }
