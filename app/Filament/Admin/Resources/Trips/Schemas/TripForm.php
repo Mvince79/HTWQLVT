@@ -27,18 +27,21 @@ class TripForm
                         ->label('Mã vận đơn / Đơn hàng')
                         ->required(),
 
-                    DateTimePicker::make('start_time')->label('Thời gian bắt đầu')
-                        ->default(now()) // Mặc định là hiện tại (Bắt đầu ngay)
+                    DateTimePicker::make('start_time')
+                        ->label('Thời gian bắt đầu')
+                        ->default(now())
                         ->required(),
 
                     DateTimePicker::make('end_time')
                         ->label('Thời gian kết thúc dự kiến'),
 
                     Select::make('status')
-                        ->label('Trạng thái khởi tạo')
+                        ->label('Trạng thái')
                         ->options([
                             'not_started' => 'Hẹn trước (Chưa đi)',
-                            'in_progress' => 'Bắt đầu ngay lập tức',
+                            'in_progress' => 'Đang thực hiện',
+                            'completed' => 'Hoàn thành',
+                            'cancelled' => 'Đã hủy',
                         ])
                         ->default('not_started')
                         ->required(),

@@ -5,3 +5,44 @@
 
 @source '../../../../vendor/guava/calendar/resources/**/*';
 @import "../../../../vendor/guava/calendar/resources/css/theme.css";
+
+/* Dark mode fix cho Guava Calendar */
+.dark .ec {
+    background-color: rgb(
+        31 41 55
+    ); /* gray-800 - khớp với màu nền Filament dark */
+    color: rgb(209 213 219); /* gray-300 */
+    border-color: rgb(55 65 81); /* gray-700 */
+}
+
+.dark .ec-toolbar {
+    color: rgb(209 213 219);
+}
+
+.dark .ec-day-head,
+.dark .ec-day {
+    border-color: rgb(55 65 81);
+    background-color: rgb(31 41 55);
+}
+
+.dark .ec-day.ec-today {
+    background-color: rgb(55 65 81); /* highlight ngày hôm nay */
+}
+
+.dark .ec-day-grid .ec-day {
+    background-color: rgb(31 41 55);
+}
+
+.dark .ec-button {
+    background-color: rgb(55 65 81);
+    color: rgb(209 213 219);
+    border-color: rgb(75 85 99);
+}
+
+.dark .ec-button:hover {
+    background-color: rgb(75 85 99);
+}
+
+.dark .ec-more-link {
+    color: rgb(156 163 175);
+}

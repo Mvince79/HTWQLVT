@@ -14,6 +14,15 @@ class Trip extends Model implements Eventable
     /** @use HasFactory<\Database\Factories\TripFactory> */
     use HasFactory;
 
+    protected $fillable = [
+        'driver_id',
+        'vehicle_id',
+        'order_id',
+        'start_time',
+        'end_time',
+        'status',
+    ];
+
     public function driver()
     {
         return $this->belongsTo(Driver::class);
@@ -69,8 +78,8 @@ class Trip extends Model implements Eventable
 
         return CalendarEvent::make($this)
             ->title($title)
-            ->start($start->copy()->startOfDay())
-            ->end($end->copy()->startOfDay())
+            ->start($start)
+            ->end($end)
             ->backgroundColor($bgColor)
             ->textColor($textColor)
             ->allDay();
