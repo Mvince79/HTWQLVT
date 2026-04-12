@@ -12,30 +12,14 @@ return new class extends Migration {
     {
         Schema::create('drivers', function (Blueprint $table) {
             $table->id();
-
-            $table->foreignId('user_id')
-                ->unique()
-                ->constrained('users')
-                ->cascadeOnDelete();
-
+            $table->foreignId('user_id')->unique()->constrained('users')->cascadeOnDelete();
             $table->string('phone')->nullable();
-
             $table->string('license_number')->unique()->nullable();
             $table->string('license_type')->nullable();
             $table->date('license_expiry')->nullable();
 
-            $table->enum('vehicle_type', ['truck', 'container', 'tanker'])->nullable();
-            $table->string('plate_number')->nullable();
-
             $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
-            $table->enum('working_status', [
-                'idle',
-                'assigned',
-                'delivering',
-                'resting',
-                'inactive'
-            ])->default('idle');
-
+            $table->enum('working_status', ['idle', 'assigned', 'delivering', 'resting', 'inactive'])->default('idle');
             $table->timestamps();
         });
     }

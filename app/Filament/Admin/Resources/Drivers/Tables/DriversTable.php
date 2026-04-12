@@ -15,7 +15,6 @@ class DriversTable
         return $table
             ->columns([
                 TextColumn::make('user.name')->label('Tên tài xế')->searchable()->sortable(),
-                TextColumn::make('plate_number')->label('Biển số')->searchable(),
                 TextColumn::make('license_type')->label('Hạng bằng'),
                 TextColumn::make('working_status')
                     ->label('Trạng thái')

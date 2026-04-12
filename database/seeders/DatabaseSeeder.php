@@ -18,10 +18,11 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UserSeeder::class,
             DriverSeeder::class,
-                // VehicleSeeder::class,
+            VehicleSeeder::class,
             OrderSeeder::class,
             TripSeeder::class,
-            // FuelLogSeeder::class,
+            FuelLogSeeder::class,
+            IncidentSeeder::class,
         ]);
     }
 }

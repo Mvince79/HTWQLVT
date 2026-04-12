@@ -18,7 +18,7 @@ class VehiclesTable
                     ->label('ID')
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('plate_number')
+                Tables\Columns\TextColumn::make('license_plate')
                     ->label('Biển số')
                     ->searchable()
                     ->sortable(),

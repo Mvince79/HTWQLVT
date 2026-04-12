@@ -2,6 +2,7 @@
 
 namespace App\Filament\Admin\Resources\Trips\Tables;
 
+use App\Events\TripUpdated;
 use Filament\Actions\Action;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
@@ -17,7 +18,10 @@ class TripsTable
             ->columns([
                 TextColumn::make('id')->label('ID')->sortable(),
                 TextColumn::make('driver.user.name')->label('Tài xế')->searchable(),
-                TextColumn::make('driver.plate_number')->label('Xe'),
+                TextColumn::make('vehicle.plate_number')
+                    ->label('Biển số xe')
+                    ->searchable()
+                    ->sortable(),
                 TextColumn::make('order_id')->label('Mã đơn')->copyable(),
                 TextColumn::make('status')
                     ->label('Trạng thái')
@@ -52,20 +56,24 @@ class TripsTable
                     ->label('Bắt đầu ngay')
                     ->icon('heroicon-o-play-circle')
                     ->color('success')
-                    ->requiresConfirmation() // Hỏi lại cho chắc
-                    // Chỉ hiện nút này nếu chuyến đi đang ở trạng thái 'not_started'
+                    ->requiresConfirmation()
                     ->visible(fn($record) => $record->status === 'not_started')
                     ->action(function ($record) {
-                        // 1. Cập nhật chuyến đi
                         $record->update([
                             'status' => 'in_progress',
                             'start_time' => now(),
                         ]);
 
-                        // 2. Cập nhật trạng thái tài xế sang 'đang giao hàng'
                         $record->driver->update([
                             'working_status' => 'delivering'
                         ]);
+
+                        if ($record->vehicle) {
+                            $record->vehicle->update([
+                                'working_status' => 'in_use'
+                            ]);
+                        }
+                        event(new TripUpdated($record));
                     })
                     ->successNotificationTitle('Chuyến đi đã bắt đầu!'),
                 EditAction::make(),

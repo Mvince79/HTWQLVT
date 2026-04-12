@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Vehicle extends Model
 {
@@ -14,12 +15,11 @@ class Vehicle extends Model
 
     // ================= FILLABLE =================
     protected $fillable = [
-        'plate_number',
+        'license_plate',
         'type',
-        'working_status',
         'is_active',
+        'working_status',
     ];
-
     // ================= CAST =================
     protected $casts = [
         'is_active' => 'boolean',
@@ -53,9 +53,14 @@ class Vehicle extends Model
     /**
      * 1 xe có nhiều log nhiên liệu
      */
-    public function fuelLogs()
+    public function fuelLogs(): HasMany
     {
-        return $this->hasMany(FuelLog::class);
+        return $this->hasMany(\App\Models\FuelLog::class);
+    }
+
+    public function markAsAvailable(): void
+    {
+        $this->update(['working_status' => 'available']);
     }
 
     // ================= SCOPES =================
@@ -82,6 +87,11 @@ class Vehicle extends Model
     public function scopeMaintenance(Builder $query)
     {
         return $query->where('working_status', 'maintenance');
+    }
+
+    public function driver()
+    {
+        return $this->belongsTo(Driver::class);
     }
 
     // ================= HELPERS =================
@@ -111,13 +121,7 @@ class Vehicle extends Model
         $this->update(['working_status' => 'in_use']);
     }
 
-    /**
-     * Đánh dấu xe sẵn sàng
-     */
-    public function markAsAvailable(): void
-    {
-        $this->update(['working_status' => 'available']);
-    }
+
 
     /**
      * Đánh dấu xe bảo trì

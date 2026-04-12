@@ -1,14 +1,13 @@
 <?php
-
 namespace App\Events;
 
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class OrderUpdated implements ShouldBroadcast
+class OrderUpdated implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -20,10 +19,10 @@ class OrderUpdated implements ShouldBroadcast
 
     public function broadcastOn(): array
     {
+        // Phát vào kênh 'orders'
         return [new Channel('orders')];
     }
 
-    // Tên event client sẽ nhận
     public function broadcastAs(): string
     {
         return 'order.updated';
@@ -34,6 +33,7 @@ class OrderUpdated implements ShouldBroadcast
         return [
             'order_id' => $this->orderId,
             'status' => $this->status,
+            'message' => "Đơn hàng #{$this->orderId} đã chuyển sang trạng thái: " . $this->status,
         ];
     }
 }

@@ -19,13 +19,10 @@ class DriverFactory extends Factory
     {
         return [
             'user_id' => User::factory()->state(['role' => 'driver']),
-
             'phone' => fake()->unique()->phoneNumber(),
             'license_number' => fake()->unique()->bothify('GPLX#####'),
             'license_type' => fake()->randomElement(['B2', 'C', 'FC']),
             'license_expiry' => fake()->date(),
-            'vehicle_type' => fake()->randomElement(['truck', 'container', 'tanker']),
-            'plate_number' => fake()->unique()->bothify('##A-#####'),
             'status' => 'approved',
             'working_status' => 'idle',
         ];

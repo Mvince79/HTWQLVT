@@ -3,7 +3,9 @@
 namespace Database\Factories;
 
 use App\Models\Driver;
+use App\Models\Order;
 use App\Models\Trip;
+use App\Models\Vehicle;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -11,19 +13,16 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class TripFactory extends Factory
 {
-    protected $model = Trip::class;
-
     public function definition(): array
     {
-        $driver = Driver::inRandomOrder()->first();
-
         return [
-            'driver_id' => $driver ? $driver->id : Driver::factory(),
-            'vehicle_id' => rand(1, 10),
-            'order_id' => rand(1, 50),
-            'start_time' => now()->subHours(rand(1, 12)),
-            'end_time' => now()->addHours(rand(1, 12)),
-            'status' => fake()->randomElement(['not_started', 'in_progress', 'completed']),
+            'driver_id' => Driver::inRandomOrder()->first()->id ?? Driver::factory(),
+            'vehicle_id' => Vehicle::inRandomOrder()->first()->id ?? Vehicle::factory(),
+            'order_id' => Order::inRandomOrder()->first()->id ?? Order::factory(),
+
+            'start_time' => now(),
+            'end_time' => now()->addHours(10),
+            'status' => 'in_progress',
         ];
     }
 }

@@ -15,4 +15,24 @@
     @livewireScripts
 </body>
 
+<script type="module">
+    Echo.channel('admin-notifications')
+        .listen('.incident.new', (e) => {
+            console.log('Sự cố mới:', e);
+        });
+
+    Echo.channel('orders')
+        .listen('.order.updated', (e) => {
+            if (window.Filament) {
+                new FilamentNotification()
+                    .title('Cập nhật đơn hàng')
+                    .body(e.message)
+                    .success()
+                    .send();
+            } else {
+                alert(e.message);
+            }
+        });
+</script>
+
 </html>

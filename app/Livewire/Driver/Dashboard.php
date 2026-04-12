@@ -7,8 +7,10 @@ use Livewire\Attributes\Layout;
 use App\Models\Trip;
 use App\Models\FuelLog;
 use App\Models\Driver;
+use App\Models\Vehicle;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use App\Models\Incident;
 
 #[Layout('layouts.driver')]
 class Dashboard extends Component
@@ -48,6 +50,11 @@ class Dashboard extends Component
     public function getDriverProperty()
     {
         return Auth::user()->driver;
+    }
+
+    public function getCurrentVehicleProperty(): ?Vehicle
+    {
+        return $this->currentTrip?->vehicle;
     }
 
     public function getCurrentTripProperty()
@@ -141,22 +148,29 @@ class Dashboard extends Component
 
     public function reportIncident(): void
     {
+        $trip = $this->currentTrip;
+
+        if (!$trip) {
+            $this->dispatch('notify', type: 'error', message: 'Bạn phải đang trong một chuyến đi mới có thể báo cáo sự cố.');
+            return;
+        }
+
         $this->validate([
-            'incidentNote' => 'required|string|min:10|max:1000',
-        ], [
-            'incidentNote.required' => 'Vui lòng mô tả sự cố.',
-            'incidentNote.min' => 'Mô tả phải ít nhất 10 ký tự.',
+            'incidentType' => 'required|string',
+            'incidentNote' => 'required|string|min:10',
         ]);
 
-        Log::info('Incident reported', [
+        $incident = Incident::create([
+            'trip_id' => $trip->id,
             'driver_id' => $this->driver->id,
-            'trip_id' => $this->currentTrip?->id,
             'type' => $this->incidentType,
             'note' => $this->incidentNote,
         ]);
 
-        $this->reset(['incidentNote', 'incidentType']);
-        $this->dispatch('notify', type: 'warning', message: 'Đã gửi báo cáo sự cố tới điều hành!');
+        event(new \App\Events\IncidentReported($incident));
+
+        $this->reset(['incidentType', 'incidentNote']);
+        $this->dispatch('notify', message: 'Đã gửi báo cáo sự cố.');
     }
 
     public function sendReply(int $msgId): void
@@ -187,10 +201,10 @@ class Dashboard extends Component
         return view('livewire.driver.dashboard', [
             'driver' => $this->driver,
             'currentTrip' => $this->currentTrip,
+            'currentVehicle' => $this->currentVehicle,
             'trips' => $this->trips,
             'todayTripsCount' => $this->todayTripsCount,
             'weekTripsCount' => $this->weekTripsCount,
         ]);
-        // return view('welcome');
     }
 }

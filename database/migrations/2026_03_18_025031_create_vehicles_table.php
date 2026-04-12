@@ -13,7 +13,7 @@ return new class extends Migration {
         Schema::create('vehicles', function (Blueprint $table) {
             $table->id();
 
-            $table->string('plate_number', 20);
+            $table->string('license_plate', 20);
             $table->enum('type', ['light_truck', 'medium_truck', 'heavy_truck', 'container_truck'])
                 ->default('light_truck');
 

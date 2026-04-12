@@ -1,0 +1,51 @@
+<?php
+
+namespace App\Filament\Admin\Resources\FuelLogs\Schemas;
+
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Schema;
+
+class FuelLogForm
+{
+    public static function configure(Schema $schema): Schema
+    {
+        return $schema->components([
+            Select::make('vehicle_id')
+                ->label('Phương tiện')
+                ->relationship('vehicle', 'plate_number')
+                ->searchable()
+                ->preload()
+                ->required(),
+
+            Select::make('driver_id')
+                ->label('Tài xế')
+                ->relationship('driver.user', 'name')
+                ->searchable()
+                ->preload()
+                ->required(),
+
+            Select::make('trip_id')
+                ->label('Chuyến xe')
+                ->relationship('trip', 'id')
+                ->searchable()
+                ->preload()
+                ->nullable(),
+
+            TextInput::make('fuel_amount')
+                ->label('Số lít (L)')
+                ->numeric()
+                ->minValue(0.1)
+                ->maxValue(500)
+                ->step(0.5)
+                ->suffix('L')
+                ->required(),
+
+            Textarea::make('note')
+                ->label('Ghi chú')
+                ->rows(3)
+                ->columnSpanFull(),
+        ]);
+    }
+}

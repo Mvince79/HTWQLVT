@@ -31,8 +31,10 @@ class Order extends Model
 
     protected static function booted(): void
     {
-        static::saved(function (Order $order) {
-            OrderUpdated::dispatch($order->id, $order->status);
+        static::updated(function (Order $order) {
+            if ($order->wasChanged('status')) {
+                event(new OrderUpdated($order->id, $order->status));
+            }
         });
     }
 }

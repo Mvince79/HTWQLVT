@@ -12,10 +12,9 @@ return new class extends Migration {
     {
         Schema::create('trips', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('driver_id')->constrained('drivers')->cascadeOnDelete();
-
-            $table->unsignedBigInteger('vehicle_id')->nullable();
-            $table->unsignedBigInteger('order_id')->nullable();
+            $table->foreignId('driver_id')->constrained('drivers');
+            $table->foreignId('vehicle_id')->constrained('vehicles');
+            $table->foreignId('order_id')->nullable()->constrained('orders');
 
             $table->dateTime('start_time');
             $table->dateTime('end_time')->nullable();
