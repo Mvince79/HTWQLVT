@@ -11,6 +11,15 @@ class Trip extends Model
     /** @use HasFactory<\Database\Factories\TripFactory> */
     use HasFactory;
 
+    protected $fillable = [
+        'driver_id',
+        'vehicle_id',
+        'order_id',
+        'start_time',
+        'end_time',
+        'status',
+    ];
+
     protected $dispatchesEvents = [
         'updated' => \App\Events\TripUpdated::class,
     ];
