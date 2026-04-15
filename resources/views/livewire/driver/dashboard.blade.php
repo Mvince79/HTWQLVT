@@ -48,7 +48,7 @@
                             </svg>
                             <div>
                                 <p class="text-xs opacity-70">Điểm lấy hàng</p>
-                                <p class="font-semibold text-sm">{{ $currentTrip->order?->pickup_address ?? 'N/A' }}</p>
+                                <p class="font-semibold text-sm">{{ $currentTrip->order?->pickup_location ?? 'N/A' }}</p>
                             </div>
                         </div>
                         <div class="flex items-start gap-2">
@@ -60,7 +60,7 @@
                             </svg>
                             <div>
                                 <p class="text-xs opacity-70">Điểm giao hàng</p>
-                                <p class="font-semibold text-sm">{{ $currentTrip->order?->delivery_address ?? 'N/A' }}</p>
+                                <p class="font-semibold text-sm">{{ $currentTrip->order?->delivery_location ?? 'N/A' }}</p>
                             </div>
                         </div>
                     </div>
@@ -164,7 +164,8 @@
                     {{ $trip->status === 'in_progress' ? 'border-blue-500' :
                     ($trip->status === 'completed' ? 'border-green-500' :
                         ($trip->status === 'cancelled' ? 'border-red-400' : 'border-gray-300')) }}">
-                    <div class="flex justify-between items-center mb-1">
+                    
+                    <div class="flex justify-between items-center mb-3">
                         <span class="text-xs font-mono font-bold text-blue-600">#{{ $trip->id }}</span>
                         <span class="text-[10px] px-2 py-0.5 rounded-full font-semibold
                             {{ $trip->status === 'completed' ? 'bg-green-50 text-green-700' :
@@ -179,20 +180,28 @@
                 } }}
                         </span>
                     </div>
+
                     @if($trip->order)
-                        <p class="text-xs text-gray-500 mt-1">
-                            <span class="font-medium text-gray-600">Từ:</span> {{ $trip->order->pickup_address }}
-                        </p>
-                        <p class="text-xs text-gray-500">
-                            <span class="font-medium text-gray-600">Đến:</span> {{ $trip->order->delivery_address }}
-                        </p>
+                        <div class="space-y-2 mb-3">
+                            <div class="flex items-start gap-2">
+                                <span class="text-[10px] font-semibold text-gray-600 bg-gray-100 px-2 py-1 rounded whitespace-nowrap">Từ:</span>
+                                <p class="text-xs text-gray-600 flex-1">{{ $trip->order->pickup_location }}</p>
+                            </div>
+                            <div class="flex items-start gap-2">
+                                <span class="text-[10px] font-semibold text-gray-600 bg-gray-100 px-2 py-1 rounded whitespace-nowrap">Đến:</span>
+                                <p class="text-xs text-gray-600 flex-1">{{ $trip->order->delivery_location }}</p>
+                            </div>
+                        </div>
                     @endif
-                    @if($trip->vehicle)
-                        <p class="text-xs text-gray-400 mt-1">
-                            Xe: {{ $trip->vehicle->license_plate }}
-                        </p>
-                    @endif
-                    <p class="text-[10px] text-gray-400 mt-1">{{ $trip->created_at->format('d/m/Y H:i') }}</p>
+
+                    <div class="flex justify-between items-center text-xs text-gray-500 pt-3">
+                        @if($trip->vehicle)
+                            <span><span class="font-semibold text-gray-600">Xe:</span> {{ $trip->vehicle->license_plate }}</span>
+                        @else
+                            <span></span>
+                        @endif
+                        <span class="text-[10px]">{{ $trip->created_at->format('d/m/Y H:i') }}</span>
+                    </div>
                 </div>
             @empty
                 <div class="bg-white rounded-2xl p-6 text-center text-gray-400 shadow-sm">
