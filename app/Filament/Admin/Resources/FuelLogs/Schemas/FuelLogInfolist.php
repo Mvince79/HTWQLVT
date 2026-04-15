@@ -14,7 +14,7 @@ class FuelLogInfolist
             Section::make('Thông tin nhiên liệu')
                 ->columns(2)
                 ->schema([
-                    TextEntry::make('vehicle.plate_number')
+                    TextEntry::make('vehicle.license_plate')
                         ->label('Biển số xe'),
 
                     TextEntry::make('driver.user.name')

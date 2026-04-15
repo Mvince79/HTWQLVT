@@ -11,7 +11,7 @@ class VehicleInfolist
     {
         return $schema->components([
 
-            TextEntry::make('plate_number')
+            TextEntry::make('license_plate')
                 ->label('Biển số'),
 
             TextEntry::make('type')

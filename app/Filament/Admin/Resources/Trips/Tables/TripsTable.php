@@ -18,7 +18,7 @@ class TripsTable
             ->columns([
                 TextColumn::make('id')->label('ID')->sortable(),
                 TextColumn::make('driver.user.name')->label('Tài xế')->searchable(),
-                TextColumn::make('vehicle.plate_number')
+                TextColumn::make('vehicle.license_plate')
                     ->label('Biển số xe')
                     ->searchable()
                     ->sortable(),

@@ -14,7 +14,7 @@ class FuelLogForm
         return $schema->components([
             Select::make('vehicle_id')
                 ->label('Phương tiện')
-                ->relationship('vehicle', 'plate_number')
+                ->relationship('vehicle', 'license_plate')
                 ->searchable()
                 ->preload()
                 ->required(),

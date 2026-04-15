@@ -24,7 +24,7 @@ class VehicleResource extends Resource
     protected static ?string $navigationLabel = 'Phương tiện';
 
 
-    protected static ?string $recordTitleAttribute = 'plate_number';
+    protected static ?string $recordTitleAttribute = 'license_plate';
 
     public static function form(Schema $schema): Schema
     {

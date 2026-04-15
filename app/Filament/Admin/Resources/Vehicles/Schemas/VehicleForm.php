@@ -13,7 +13,7 @@ class VehicleForm
     {
         return $schema->components([
 
-            TextInput::make('plate_number')
+            TextInput::make('license_plate')
                 ->label('Biển số xe')
                 ->required()
                 ->maxLength(20)
