@@ -23,8 +23,20 @@ class TripForm
                         ->preload()
                         ->required(),
 
-                    TextInput::make('order_id')
+                    Select::make('vehicle_id')
+                        ->label('Xe vận chuyển')
+                        ->relationship('vehicle', 'id')
+                        ->getOptionLabelFromRecordUsing(fn($record) => $record->license_plate . " - " . $record->type)
+                        ->searchable()
+                        ->preload()
+                        ->required(),
+
+                    Select::make('order_id')
                         ->label('Mã vận đơn / Đơn hàng')
+                        ->relationship('order', 'id')
+                        ->getOptionLabelFromRecordUsing(fn($record) => $record->code)
+                        ->searchable()
+                        ->preload()
                         ->required(),
 
                     DateTimePicker::make('start_time')->label('Thời gian bắt đầu')
