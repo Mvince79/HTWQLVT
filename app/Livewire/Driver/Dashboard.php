@@ -4,6 +4,7 @@ namespace App\Livewire\Driver;
 
 use Livewire\Component;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\On;
 use App\Models\Trip;
 use App\Models\FuelLog;
 use App\Models\Driver;
@@ -32,6 +33,8 @@ class Dashboard extends Component
     // Trip status
     public $selectedStatus = '';
 
+    public $driverId;
+
     // ===================== MOUNT =====================
 
     public function mount()
@@ -42,7 +45,44 @@ class Dashboard extends Component
             return redirect('/admin/login');
         }
 
+        $this->driverId = $driver->id;
         $this->selectedStatus = $this->currentTrip?->status ?? '';
+    }
+
+    // ===================== REALTIME LISTENERS =====================
+
+    // Lắng nghe khi admin gán chuyến mới cho driver này
+    #[On('echo:driver.{driverId},.trip.assigned')]
+    public function onTripAssigned(): void
+    {
+        // Component tự re-render với data mới từ DB
+    }
+
+    // Getter để Livewire bind driverId vào channel name
+    public function getDriveIdProperty(): int
+    {
+        return $this->driver?->id ?? 0;
+    }
+
+    // Lắng nghe khi có cập nhật trip bất kỳ (admin cập nhật từ panel)
+    #[On('echo:fleet-updates,.trip.updated')]
+    public function onTripUpdated(): void
+    {
+        $this->selectedStatus = $this->currentTrip?->status ?? '';
+    }
+
+    // Lắng nghe cập nhật đơn hàng
+    #[On('echo:orders,.order.updated')]
+    public function onOrderUpdated(): void
+    {
+        // Re-render tự động
+    }
+
+    // Lắng nghe cập nhật xe
+    #[On('echo:vehicle-updates,.vehicle.status.updated')]
+    public function onVehicleUpdated(): void
+    {
+        // Re-render tự động
     }
 
     // ===================== COMPUTED =====================
@@ -116,12 +156,44 @@ class Dashboard extends Component
             'fuel_amount' => $this->fuelAmount,
             'note' => $this->fuelNote,
         ]);
-        event(new \App\Events\FuelLogCreated($fuelLog));
 
+        event(new \App\Events\FuelLogCreated($fuelLog));
 
         $this->reset(['fuelAmount', 'fuelNote']);
         $this->dispatch('notify', type: 'success', message: 'Đã ghi nhận nhiên liệu!');
     }
+
+    // public function updateTripStatus(string $status): void
+    // {
+    //     $trip = $this->currentTrip;
+    //     if (!$trip)
+    //         return;
+
+    //     $allowed = ['not_started', 'in_progress', 'completed', 'cancelled'];
+    //     if (!in_array($status, $allowed))
+    //         return;
+
+    //     // Chỉ gọi update() — TripObserver sẽ tự fire TripUpdated
+    //     // KHÔNG gọi event(new TripUpdated()) thủ công để tránh double-fire
+    //     $trip->update(['status' => $status]);
+
+    //     if ($status === 'completed' || $status === 'cancelled') {
+    //         $trip->vehicle?->markAsAvailable();
+    //         if ($trip->order) {
+    //             $trip->order->update([
+    //                 'status' => $status === 'completed' ? 'completed' : 'cancelled',
+    //             ]);
+    //             event(new \App\Events\OrderUpdated(
+    //                 $trip->order->id,
+    //                 $status === 'completed' ? 'completed' : 'cancelled'
+    //             ));
+    //         }
+    //     }
+
+    //     $this->selectedStatus = $status;
+    //     $this->dispatch('notify', type: 'success', message: 'Đã cập nhật trạng thái chuyến!');
+    // }
+
 
     public function updateTripStatus(string $status): void
     {
@@ -135,22 +207,37 @@ class Dashboard extends Component
 
         $trip->update(['status' => $status]);
 
-        if ($status === 'completed' || $status === 'cancelled') {
-            $trip->vehicle?->markAsAvailable();
-            if ($trip->order) {
-                $trip->order->update([
-                    'status' => $status === 'completed' ? 'completed' : 'cancelled',
-                ]);
+        // LOGIC CẬP NHẬT ORDER TỰ ĐỘNG Ở ĐÂY
+        if ($trip->order) {
+            $newOrderStatus = match ($status) {
+                'in_progress' => 'delivering',
+                'completed' => 'completed',
+                'cancelled' => 'cancelled',
+                default => null
+            };
+
+            if ($newOrderStatus) {
+                $trip->order->update(['status' => $newOrderStatus]);
+
+                // SỬA TẠI ĐÂY: Truyền thêm tham số thứ 3 là mã đơn hàng (code)
                 event(new \App\Events\OrderUpdated(
                     $trip->order->id,
-                    $status === 'completed' ? 'completed' : 'cancelled'
+                    $newOrderStatus,
+                    $trip->order->code
                 ));
             }
+        }
+
+        // Giải phóng xe nếu kết thúc
+        if ($status === 'completed' || $status === 'cancelled') {
+            $trip->vehicle?->markAsAvailable();
         }
 
         $this->selectedStatus = $status;
         $this->dispatch('notify', type: 'success', message: 'Đã cập nhật trạng thái chuyến!');
     }
+
+
 
     public function reportIncident(): void
     {

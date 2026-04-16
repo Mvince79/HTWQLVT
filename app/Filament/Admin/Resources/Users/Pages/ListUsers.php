@@ -16,4 +16,9 @@ class ListUsers extends ListRecords
             CreateAction::make(),
         ];
     }
+
+    protected function getPollingInterval(): ?string
+    {
+        return '5s';
+    }
 }

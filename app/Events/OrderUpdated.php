@@ -14,6 +14,7 @@ class OrderUpdated implements ShouldBroadcastNow
     public function __construct(
         public int $orderId,
         public string $status,
+        public string $orderCode,
     ) {
     }
 
@@ -32,8 +33,9 @@ class OrderUpdated implements ShouldBroadcastNow
     {
         return [
             'order_id' => $this->orderId,
+            'order_code' => $this->orderCode,
             'status' => $this->status,
-            'message' => "Đơn hàng #{$this->orderId} đã chuyển sang trạng thái: " . $this->status,
+            'message' => "Đơn hàng {$this->orderCode} đã chuyển sang: " . $this->status,
         ];
     }
 }

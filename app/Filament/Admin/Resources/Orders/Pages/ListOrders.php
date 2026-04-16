@@ -5,6 +5,8 @@ namespace App\Filament\Admin\Resources\Orders\Pages;
 use App\Filament\Admin\Resources\Orders\OrderResource;
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
+use Livewire\Attributes\On;
+
 
 class ListOrders extends ListRecords
 {
@@ -23,10 +25,19 @@ class ListOrders extends ListRecords
         return [];
     }
 
+    #[On('echo:orders,.order.updated')]
+    public function refreshOnOrderUpdated(): void
+    {
+    }
     protected function getListeners(): array
     {
         return [
             'echo:orders,.order.updated' => '$refresh',
         ];
+    }
+
+    protected function getPollingInterval(): ?string
+    {
+        return '3s';
     }
 }

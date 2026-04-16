@@ -19,7 +19,7 @@ class TripObserver
 
     public function updated(Trip $trip): void
     {
-        $trip->load(['driver.user', 'vehicle']);
+        $trip->loadMissing(['driver.user', 'vehicle']);
 
         event(new TripUpdated($trip));
 

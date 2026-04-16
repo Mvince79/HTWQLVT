@@ -2,7 +2,6 @@
 
 namespace App\Filament\Admin\Resources\Trips\Tables;
 
-use App\Events\TripUpdated;
 use Filament\Actions\Action;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
@@ -73,7 +72,6 @@ class TripsTable
                                 'working_status' => 'in_use'
                             ]);
                         }
-                        event(new TripUpdated($record));
                     })
                     ->successNotificationTitle('Chuyến đi đã bắt đầu!'),
                 EditAction::make(),
