@@ -52,8 +52,6 @@ class TripResource extends Resource
     {
         return [
             'index' => ListTrips::route('/'),
-            'create' => CreateTrip::route('/create'),
-            'edit' => EditTrip::route('/{record}/edit'),
         ];
     }
 }

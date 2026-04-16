@@ -59,9 +59,6 @@ class FuelLogResource extends Resource
     {
         return [
             'index' => ListFuelLogs::route('/'),
-            'create' => CreateFuelLog::route('/create'),
-            'view' => ViewFuelLog::route('/{record}'),
-            'edit' => EditFuelLog::route('/{record}/edit'),
         ];
     }
 }

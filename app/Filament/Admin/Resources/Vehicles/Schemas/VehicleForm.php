@@ -42,6 +42,6 @@ class VehicleForm
                 ->label('Đang hoạt động')
                 ->default(true),
 
-        ]);
+        ])->columns(1);
     }
 }

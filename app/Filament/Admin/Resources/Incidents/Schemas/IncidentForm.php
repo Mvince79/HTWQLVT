@@ -38,6 +38,6 @@ class IncidentForm
                 ->label('Mô tả chi tiết')
                 ->required()
                 ->columnSpanFull(),
-        ]);
+        ])->columns(1);
     }
 }

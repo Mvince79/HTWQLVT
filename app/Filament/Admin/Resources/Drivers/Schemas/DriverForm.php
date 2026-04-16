@@ -34,12 +34,12 @@ class DriverForm
                         Select::make('working_status')
                             ->label('Trạng thái làm việc')
                             ->options([
-                                'idle' => 'Đang rảnh',
+                                'idle' => 'Đang rảnh',  
                                 'assigned' => 'Đã phân công',
                                 'delivering' => 'Đang đi giao',
                             ])->default('idle')->required(),
                     ]),
                 ]),
-        ]);
+        ])->columns(1);
     }
-}
+}   

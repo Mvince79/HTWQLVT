@@ -46,6 +46,6 @@ class FuelLogForm
                 ->label('Ghi chú')
                 ->rows(3)
                 ->columnSpanFull(),
-        ]);
+        ])->columns(1);
     }
 }

@@ -61,7 +61,6 @@ class IncidentResource extends Resource
     {
         return [
             'index' => ListIncidents::route('/'),
-            'create' => CreateIncident::route('/create'),
             'view' => ViewIncident::route('/{record}'),
             'edit' => EditIncident::route('/{record}/edit'),
         ];

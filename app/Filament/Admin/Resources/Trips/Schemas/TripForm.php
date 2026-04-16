@@ -55,6 +55,6 @@ class TripForm
                         ->default('not_started')
                         ->required(),
                 ])->columns(2),
-        ]);
+        ])->columns(1);
     }
 }
