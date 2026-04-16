@@ -109,13 +109,15 @@ class Dashboard extends Component
 
         $trip = $this->currentTrip;
 
-        FuelLog::create([
+        $fuelLog = FuelLog::create([
             'vehicle_id' => $trip?->vehicle_id,
             'driver_id' => $this->driver->id,
             'trip_id' => $trip?->id,
             'fuel_amount' => $this->fuelAmount,
             'note' => $this->fuelNote,
         ]);
+        event(new \App\Events\FuelLogCreated($fuelLog));
+
 
         $this->reset(['fuelAmount', 'fuelNote']);
         $this->dispatch('notify', type: 'success', message: 'Đã ghi nhận nhiên liệu!');
@@ -139,6 +141,10 @@ class Dashboard extends Component
                 $trip->order->update([
                     'status' => $status === 'completed' ? 'completed' : 'cancelled',
                 ]);
+                event(new \App\Events\OrderUpdated(
+                    $trip->order->id,
+                    $status === 'completed' ? 'completed' : 'cancelled'
+                ));
             }
         }
 
