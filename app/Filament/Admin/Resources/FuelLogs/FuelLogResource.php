@@ -24,6 +24,16 @@ class FuelLogResource extends Resource
 
     protected static ?string $navigationLabel = 'Nhiên liệu';
 
+    public static function getModelLabel(): string
+    {
+        return 'Nhiên liệu';
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return 'Danh sách nhiên liệu';
+    }
+
 
     public static function form(Schema $schema): Schema
     {

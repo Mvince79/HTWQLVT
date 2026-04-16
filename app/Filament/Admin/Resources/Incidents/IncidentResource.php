@@ -24,6 +24,16 @@ class IncidentResource extends Resource
 
     protected static ?string $navigationLabel = 'Sự cố';
 
+    public static function getModelLabel(): string
+    {
+        return 'Sự cố';
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return 'Danh sách sự cố';
+    }
+
 
     public static function form(Schema $schema): Schema
     {

@@ -20,6 +20,15 @@ class TripResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::Map;
     protected static ?string $navigationLabel = 'Chuyến';
+    public static function getModelLabel(): string
+    {
+        return 'Chuyến xe';
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return 'Danh sách chuyến xe';
+    }
 
 
     public static function form(Schema $schema): Schema

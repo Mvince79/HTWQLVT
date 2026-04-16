@@ -23,6 +23,16 @@ class VehicleResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::Truck;
     protected static ?string $navigationLabel = 'Phương tiện';
 
+    public static function getModelLabel(): string
+    {
+        return 'Phương tiện';
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return 'Danh sách phương tiện';
+    }
+
 
     protected static ?string $recordTitleAttribute = 'license_plate';
 

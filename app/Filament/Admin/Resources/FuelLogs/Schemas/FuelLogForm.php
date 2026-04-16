@@ -38,7 +38,7 @@ class FuelLogForm
                 ->numeric()
                 ->minValue(0.1)
                 ->maxValue(500)
-                ->step(0.5)
+                ->step('any')
                 ->suffix('L')
                 ->required(),
 
