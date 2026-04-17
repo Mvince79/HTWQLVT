@@ -207,7 +207,6 @@ class Dashboard extends Component
 
         $trip->update(['status' => $status]);
 
-        // LOGIC CẬP NHẬT ORDER TỰ ĐỘNG Ở ĐÂY
         if ($trip->order) {
             $newOrderStatus = match ($status) {
                 'in_progress' => 'delivering',
@@ -219,7 +218,6 @@ class Dashboard extends Component
             if ($newOrderStatus) {
                 $trip->order->update(['status' => $newOrderStatus]);
 
-                // SỬA TẠI ĐÂY: Truyền thêm tham số thứ 3 là mã đơn hàng (code)
                 event(new \App\Events\OrderUpdated(
                     $trip->order->id,
                     $newOrderStatus,
@@ -228,7 +226,6 @@ class Dashboard extends Component
             }
         }
 
-        // Giải phóng xe nếu kết thúc
         if ($status === 'completed' || $status === 'cancelled') {
             $trip->vehicle?->markAsAvailable();
         }

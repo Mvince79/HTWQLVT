@@ -31,9 +31,15 @@ class Order extends Model
 
     protected static function booted(): void
     {
+        static::creating(function (Order $order) {
+            if (empty($order->code)) {
+                $order->code = 'ORD-' . strtoupper(substr(uniqid(), -8));
+            }
+        });
+
         static::updated(function (Order $order) {
             if ($order->wasChanged('status')) {
-                event(new OrderUpdated($order->id, $order->status));
+                event(new OrderUpdated($order->id, $order->status, $order->code));
             }
         });
     }
