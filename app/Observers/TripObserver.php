@@ -24,12 +24,20 @@ class TripObserver
         event(new TripUpdated($trip));
 
         if ($trip->wasChanged('status')) {
-            if (in_array($trip->status, ['completed', 'cancelled'])) {
-                $vehicle = $trip->vehicle;
-                if ($vehicle) {
-                    $vehicle->refresh();
-                    event(new VehicleStatusUpdated($vehicle));
-                }
+            $order = $trip->order;
+
+            if ($order) {
+                // mapping status nếu cần
+                $mapping = [
+                    'not_started' => 'pending',
+                    'assigned' => 'assigned',
+                    'in_progress' => 'delivering',
+                    'completed' => 'completed',
+                    'cancelled' => 'cancelled',
+                ];
+
+                $order->status = $mapping[$trip->status] ?? $trip->status;
+                $order->save();
             }
         }
 
