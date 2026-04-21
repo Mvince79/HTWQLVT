@@ -4,6 +4,7 @@ namespace App\Filament\Admin\Resources\Orders\Pages;
 
 use App\Filament\Admin\Resources\Orders\OrderResource;
 use Filament\Resources\Pages\CreateRecord;
+use Illuminate\Support\Facades\Auth;
 
 class CreateOrder extends CreateRecord
 {
@@ -18,5 +19,10 @@ class CreateOrder extends CreateRecord
     protected function getRedirectUrl(): string
     {
         return $this->getResource()::getUrl('index');
+    }
+    protected function mutateFormDataBeforeCreate(array $data): array
+    {
+        $data['user_id'] = Auth::id();
+        return $data;
     }
 }

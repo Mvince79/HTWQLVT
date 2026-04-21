@@ -20,6 +20,7 @@ class TripsTable
                 TextColumn::make('driver.user.name')->label('Tài xế')->searchable(),
                 TextColumn::make('vehicle.license_plate')
                     ->label('Biển số xe')
+                    ->copyable()
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('order_id')->label('Mã đơn')->copyable(),

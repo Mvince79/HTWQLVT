@@ -6,6 +6,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
+use Filament\Forms\Components\DateTimePicker;
 
 class OrderForm
 {
@@ -30,6 +31,11 @@ class OrderForm
                 TextInput::make('price')
                     ->label('Giá')
                     ->numeric(),
+
+                DateTimePicker::make('scheduled_date')
+                    ->label('Ngày giao')
+                    ->timezone('Asia/Ho_Chi_Minh')
+                    ->required(),
 
                 Textarea::make('pickup_location')
                     ->label('Điểm lấy hàng')

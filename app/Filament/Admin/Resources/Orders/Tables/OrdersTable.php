@@ -28,6 +28,7 @@ class OrdersTable
                 TextColumn::make('scheduled_date')
                     ->label('Ngày giao')
                     ->dateTime('d/m/Y H:i')
+                    ->timezone('Asia/Ho_Chi_Minh')
                     ->sortable(),
 
                 BadgeColumn::make('status')
@@ -40,6 +41,8 @@ class OrdersTable
                         'danger' => 'cancelled',
                     ]),
             ])
+            ->defaultSort('created_at', 'desc')
+
             ->filters([
                 //
             ])
