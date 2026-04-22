@@ -45,7 +45,8 @@
 
         Echo.channel('vehicle-updates')
             .listen('.vehicle.status.updated', (e) => {
-                notify(`Xe ${e.license_plate} → ${e.status}`, 'info');
+                const vehicleStatusMap = { active: 'Đang hoạt động', inactive: 'Không hoạt động', maintenance: 'Bảo trì' };
+                notify(`Xe ${e.license_plate} → ${vehicleStatusMap[e.status] ?? e.status}`, 'info');
                 dispatchToLivewire('echo:vehicle-updates,.vehicle.status.updated', e);
             });
 

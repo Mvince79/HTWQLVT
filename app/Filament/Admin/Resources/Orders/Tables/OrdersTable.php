@@ -33,6 +33,14 @@ class OrdersTable
 
                 BadgeColumn::make('status')
                     ->label('Trạng thái')
+                    ->formatStateUsing(fn(string $state) => match ($state) {
+                        'pending' => 'Chờ xử lý',
+                        'assigned' => 'Đã phân công',
+                        'delivering' => 'Đang giao',
+                        'completed' => 'Hoàn thành',
+                        'cancelled' => 'Đã huỷ',
+                        default => $state,
+                    })
                     ->colors([
                         'warning' => 'pending',
                         'primary' => 'assigned',

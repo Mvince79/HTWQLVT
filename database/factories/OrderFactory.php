@@ -23,11 +23,11 @@ class OrderFactory extends Factory
             'code' => 'ORD-' . now()->format('Ymd') . '-' . $this->faker->unique()->numberBetween(100, 999),
 
             'cargo_name' => $this->faker->randomElement([
-                'Electronics',
-                'Furniture',
-                'Clothes',
-                'Food',
-                'Construction Materials'
+                'Điện tử',
+                'Nội thất',
+                'Quần áo',
+                'Thực phẩm',
+                'Vật liệu xây dựng',
             ]),
 
             'cargo_weight' => $this->faker->randomFloat(2, 100, 10000),

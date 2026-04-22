@@ -58,13 +58,16 @@
 
         Echo.channel('vehicle-updates')
             .listen('.vehicle.status.updated', (e) => {
+                const vehicleStatusMap = {
+                    active: 'Đang hoạt động',
+                    inactive: 'Không hoạt động',
+                    maintenance: 'Bảo trì'
+                };
                 new FilamentNotification()
                     .title(`Xe ${e.license_plate} cập nhật`)
-                    .body(`Trạng thái: ${e.status}`)
+                    .body(`Trạng thái: ${vehicleStatusMap[e.status] ?? e.status}`)
                     .warning()
                     .send();
-
-                Livewire.dispatch('echo:vehicle-updates,.vehicle.status.updated', e);
             });
 
     });

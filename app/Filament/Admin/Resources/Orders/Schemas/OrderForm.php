@@ -48,11 +48,11 @@ class OrderForm
                 Select::make('status')
                     ->label('Trạng thái')
                     ->options([
-                        'pending' => 'Pending',
-                        'assigned' => 'Assigned',
-                        'delivering' => 'Delivering',
-                        'completed' => 'Completed',
-                        'cancelled' => 'Cancelled',
+                        'pending' => 'Chờ xử lý',
+                        'assigned' => 'Đã phân công',
+                        'delivering' => 'Đang giao',
+                        'completed' => 'Hoàn thành',
+                        'cancelled' => 'Đã huỷ',
                     ])
                     ->visible(fn($operation) => $operation === 'edit'),
             ]);
