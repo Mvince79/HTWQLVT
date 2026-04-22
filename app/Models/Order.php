@@ -20,7 +20,7 @@ class Order extends Model
         'price',
         'pickup_location',
         'delivery_location',
-        'scheduled_date',
+        'scheduled_date' => 'datetime',
         'status',
     ];
 

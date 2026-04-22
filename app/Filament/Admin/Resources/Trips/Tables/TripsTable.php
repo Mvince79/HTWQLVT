@@ -17,32 +17,54 @@ class TripsTable
             ->defaultSort('created_at', 'desc')
             ->columns([
                 TextColumn::make('id')->label('ID')->sortable(),
-                TextColumn::make('driver.user.name')->label('Tài xế')->searchable(),
+                TextColumn::make('driver.user.name')
+                    ->label('Tài xế')
+                    ->searchable()
+                    ->description(fn($record) => $record->driver?->phone),
                 TextColumn::make('vehicle.license_plate')
-                    ->label('Biển số xe')
+                    ->label('Phương tiện')
                     ->copyable()
                     ->searchable()
-                    ->sortable(),
-                TextColumn::make('order_id')->label('Mã đơn')->copyable(),
+                    ->description(fn($record) => $record->vehicle?->type_label),
+                TextColumn::make('order.code')
+                    ->label('Đơn hàng')
+                    ->copyable()
+                    ->description(fn($record) => $record->order?->delivery_location),
+                TextColumn::make('start_time')
+                    ->label('Khởi hành')
+                    ->dateTime('d/m H:i')
+                    ->timezone('Asia/Ho_Chi_Minh')
+                    ->placeholder('—'),
+                TextColumn::make('end_time')
+                    ->label('ETA')
+                    ->dateTime('d/m H:i')
+                    ->timezone('Asia/Ho_Chi_Minh')
+                    ->placeholder('—')
+                    ->color(
+                        fn($record) =>
+                        $record->end_time
+                        && \Carbon\Carbon::parse($record->end_time)->isPast()
+                        && $record->status === 'in_progress'
+                        ? 'danger' : null
+                    ),
                 TextColumn::make('status')
                     ->label('Trạng thái')
                     ->badge()
-                    ->color(fn(string $state): string => match ($state) {
+                    ->color(fn(string $state) => match ($state) {
                         'not_started' => 'gray',
                         'in_progress' => 'warning',
                         'completed' => 'success',
                         'cancelled' => 'danger',
-                        default => 'secondary',
                     })
-                    ->formatStateUsing(fn(string $state): string => match ($state) {
-                        'not_started' => 'Chưa bắt đầu',
-                        'in_progress' => 'Đang thực hiện',
+                    ->formatStateUsing(fn(string $state) => match ($state) {
+                        'not_started' => 'Chờ khởi hành',
+                        'in_progress' => 'Đang chạy',
                         'completed' => 'Hoàn thành',
                         'cancelled' => 'Đã hủy',
-                        default => $state,
                     }),
-                TextColumn::make('created_at')->label('Ngày tạo')->dateTime('d/m H:i'),
             ])
+            ->defaultSort('created_at', 'desc')
+            ->poll('30s')
             ->filters([
                 SelectFilter::make('status')
                     ->options([

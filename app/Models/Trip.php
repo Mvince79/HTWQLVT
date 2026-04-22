@@ -15,8 +15,8 @@ class Trip extends Model
         'driver_id',
         'vehicle_id',
         'order_id',
-        'start_time',
-        'end_time',
+        'start_time' => 'datetime',
+        'end_time' => 'datetime',
         'status',
     ];
 

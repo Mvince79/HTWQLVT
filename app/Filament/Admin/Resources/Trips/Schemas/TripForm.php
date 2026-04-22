@@ -7,13 +7,17 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Utilities\Get;
+
+use function now;
 
 class TripForm
 {
     public static function configure(Schema $schema): Schema
     {
         return $schema->schema([
-            Section::make('Điều phối vận chuyển')
+            Section::make('Điều phối vận hành (Operational Dispatch)')
+                ->description('Thiết lập lộ trình và thời gian vận chuyển')
                 ->schema([
                     Select::make('driver_id')
                         ->label('Tài xế phụ trách')
@@ -39,21 +43,30 @@ class TripForm
                         ->preload()
                         ->required(),
 
-                    DateTimePicker::make('start_time')->label('Thời gian bắt đầu')
-                        ->default(now()) // Mặc định là hiện tại (Bắt đầu ngay)
-                        ->required(),
+                    DateTimePicker::make('start_time')
+                        ->label('Thời gian khởi hành')
+                        ->default(now())
+                        ->native(false)
+                        ->required()
+                        ->reactive(),
 
                     DateTimePicker::make('end_time')
-                        ->label('Thời gian kết thúc dự kiến'),
+                        ->label('Thời gian đến dự kiến (ETA)')
+                        ->native(false)
+                        ->minDate(fn(Get $get) => $get('start_time') ?? now())
+                        ->helperText('Dựa trên khoảng cách ước tính của lộ trình.'),
 
                     Select::make('status')
-                        ->label('Trạng thái khởi tạo')
+                        ->label('Trạng thái vận hành')
                         ->options([
-                            'not_started' => 'Hẹn trước (Chưa đi)',
-                            'in_progress' => 'Bắt đầu ngay lập tức',
+                            'not_started' => 'Đã lên lịch (Pending)',
+                            'in_progress' => 'Đang thực hiện (Active)',
+                            'completed' => 'Đã về bãi (Finished)',
+                            'cancelled' => 'Sự cố/Hủy (Void)',
                         ])
                         ->default('not_started')
-                        ->required(),
+                        ->required()
+                        ->native(false),
                 ])->columns(2),
         ])->columns(1);
     }

@@ -33,9 +33,14 @@ class OrderForm
                     ->numeric(),
 
                 DateTimePicker::make('scheduled_date')
-                    ->label('Ngày giao')
+                    ->label('Thời hạn giao hàng (Deadline)')
                     ->timezone('Asia/Ho_Chi_Minh')
-                    ->required(),
+                    ->displayFormat('d/m/Y H:i')
+                    ->native(false)
+                    ->prefix('Trước')
+                    ->minDate(now())
+                    ->required()
+                    ->helperText('Thời gian cam kết hoàn tất giao hàng cho khách.'),
 
                 Textarea::make('pickup_location')
                     ->label('Điểm lấy hàng')
@@ -46,14 +51,16 @@ class OrderForm
                     ->required(),
 
                 Select::make('status')
-                    ->label('Trạng thái')
+                    ->label('Tiến độ đơn hàng')
                     ->options([
-                        'pending' => 'Chờ xử lý',
-                        'assigned' => 'Đã phân công',
-                        'delivering' => 'Đang giao',
-                        'completed' => 'Hoàn thành',
-                        'cancelled' => 'Đã huỷ',
+                        'pending' => 'Chờ xử lý (Mới)',
+                        'assigned' => 'Đã điều phối xe',
+                        'delivering' => 'Đang trên đường giao',
+                        'completed' => 'Đã giao hàng thành công',
+                        'cancelled' => 'Đã hủy đơn',
                     ])
+                    ->native(false)
+                    ->selectablePlaceholder(false)
                     ->visible(fn($operation) => $operation === 'edit'),
             ]);
     }
