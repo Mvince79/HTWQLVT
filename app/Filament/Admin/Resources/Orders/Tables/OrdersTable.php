@@ -16,6 +16,7 @@ class OrdersTable
     public static function configure(Table $table): Table
     {
         return $table
+            ->defaultSort('created_at', 'desc')
             ->columns([
                 TextColumn::make('code')
                     ->label('Mã đơn hàng')
@@ -71,7 +72,7 @@ class OrdersTable
                         'cancelled' => 'Đã huỷ',
                     }),
             ])
-            ->defaultSort('created_at', 'desc')
+
 
             ->filters([
                 //
