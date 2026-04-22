@@ -20,8 +20,12 @@ class Order extends Model
         'price',
         'pickup_location',
         'delivery_location',
-        'scheduled_date' => 'datetime',
+        'scheduled_date',
         'status',
+    ];
+
+    protected $casts = [
+        'scheduled_date' => 'datetime',
     ];
 
     public function user(): BelongsTo

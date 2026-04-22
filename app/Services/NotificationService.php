@@ -6,6 +6,7 @@ use App\Models\Trip;
 use App\Models\Order;
 use App\Models\Incident;
 use App\Models\FuelLog;
+use Illuminate\Support\Facades\Notification;
 
 class NotificationService
 {
@@ -49,8 +50,7 @@ class NotificationService
         broadcast(new \App\Events\IncidentReported($incident));
 
         // Email admin — thay vì để trống
-        \Notification::route('mail', config('mail.ops_email'))
-            ->notify(new \App\Notifications\NewIncidentReported($incident));
+        Notification::route('mail', config('mail.ops_email'))->notify(new \App\Notifications\NewIncidentReported($incident));
     }
 
     // ── Fuel ─────────────────────────────────────────────

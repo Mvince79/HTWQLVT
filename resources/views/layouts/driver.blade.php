@@ -16,45 +16,30 @@
 
 <script type="module">
     document.addEventListener('livewire:initialized', () => {
-
-        const driverId = Number("{{ auth()->user()?->driver?->id ?? 0 }}");
-
-        function notify(message, type = 'success') {
-            window.dispatchEvent(
-                new CustomEvent('notify', { detail: { message, type } })
-            );
+        const driverId = parseInt("{{ auth()->user()?->driver?->id ?? 0 }}"); function toast(message, type = 'success') {
+            window.dispatchEvent(new CustomEvent('notify', { detail: { message, type } }));
         }
 
-        function dispatchToLivewire(eventName, data = {}) {
-            Livewire.dispatch(eventName, data);
-        }
-
+        // Chỉ lắng nghe những gì liên quan tới driver này
         if (driverId > 0) {
             Echo.channel(`driver.${driverId}`)
                 .listen('.trip.assigned', (e) => {
-                    notify(`🚚 Chuyến mới #${e.trip_id}: ${e.pickup_location} → ${e.delivery_location}`, 'success');
-                    dispatchToLivewire(`echo:driver.${driverId},.trip.assigned`, e);
+                    toast(`Chuyến mới #${e.trip_id}: ${e.pickup_location} → ${e.delivery_location}`);
+                    Livewire.dispatch(`echo:driver.${driverId},.trip.assigned`, e);
                 });
         }
 
+        // Cập nhật order của chính chuyến đang chạy
         Echo.channel('orders')
             .listen('.order.updated', (e) => {
-                notify(e.message, 'success');
-                dispatchToLivewire('echo:orders,.order.updated', e);
-            });
-
-        Echo.channel('vehicle-updates')
-            .listen('.vehicle.status.updated', (e) => {
-                const vehicleStatusMap = { active: 'Đang hoạt động', inactive: 'Không hoạt động', maintenance: 'Bảo trì' };
-                notify(`Xe ${e.license_plate} → ${vehicleStatusMap[e.status] ?? e.status}`, 'info');
-                dispatchToLivewire('echo:vehicle-updates,.vehicle.status.updated', e);
+                Livewire.dispatch('echo:orders,.order.updated', e);
+                // Không toast tất cả order — chỉ dispatch để Livewire tự re-render
             });
 
         Echo.channel('fleet-updates')
             .listen('.trip.updated', (e) => {
-                dispatchToLivewire('echo:fleet-updates,.trip.updated', e);
+                Livewire.dispatch('echo:fleet-updates,.trip.updated', e);
             });
-
     });
 </script>
 

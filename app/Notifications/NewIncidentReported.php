@@ -10,13 +10,14 @@ use Illuminate\Notifications\Notification;
 class NewIncidentReported extends Notification
 {
     use Queueable;
+    public $incident;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct()
+    public function __construct($incident)
     {
-        //
+        $this->incident = $incident;
     }
 
     /**
@@ -35,9 +36,13 @@ class NewIncidentReported extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->line('The introduction to the notification.')
-            ->action('Notification Action', url('/'))
-            ->line('Thank you for using our application!');
+            ->error()
+            ->subject('CẢNH BÁO: Sự cố vận hành mới')
+            ->line('Hệ thống vừa ghi nhận một sự cố mới từ tài xế.')
+            ->line('Loại sự cố: ' . $this->incident->type)
+            ->line('Ghi chú: ' . $this->incident->note)
+            ->action('Xem chi tiết sự cố', url('/admin/incidents/' . $this->incident->id))
+            ->line('Vui lòng xử lý kịp thời!');
     }
 
     /**

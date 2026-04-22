@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->foreignId('vehicle_id')->constrained('vehicles');
             $table->foreignId('order_id')->nullable()->constrained('orders');
 
-            $table->dateTime('start_time');
+            $table->timestamp('start_time')->nullable();
             $table->dateTime('end_time')->nullable();
             $table->enum('status', ['not_started', 'in_progress', 'completed', 'cancelled'])->default('not_started');
             $table->timestamps();

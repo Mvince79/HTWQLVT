@@ -38,7 +38,7 @@ class OrderForm
                     ->displayFormat('d/m/Y H:i')
                     ->native(false)
                     ->prefix('Trước')
-                    ->minDate(now())
+                    ->minDate(now()->addHours(2))
                     ->required()
                     ->helperText('Thời gian cam kết hoàn tất giao hàng cho khách.'),
 

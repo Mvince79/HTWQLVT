@@ -87,9 +87,11 @@ class TripsTable
                             'start_time' => now(),
                         ]);
 
-                        $record->driver->update([
-                            'working_status' => 'delivering'
-                        ]);
+                        if ($record->driver) {
+                            $record->driver->update([
+                                'working_status' => 'delivering'
+                            ]);
+                        }
 
                         if ($record->vehicle) {
                             $record->vehicle->update([

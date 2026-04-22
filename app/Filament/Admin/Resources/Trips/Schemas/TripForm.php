@@ -8,6 +8,9 @@ use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Utilities\Get;
+use App\Models\Order;
+use Filament\Schemas\Components\Utilities\Set;
+
 
 use function now;
 
@@ -37,24 +40,60 @@ class TripForm
 
                     Select::make('order_id')
                         ->label('Mã vận đơn / Đơn hàng')
-                        ->relationship('order', 'id')
-                        ->getOptionLabelFromRecordUsing(fn($record) => $record->code)
+                        ->relationship('order', 'code')
                         ->searchable()
                         ->preload()
-                        ->required(),
-
+                        ->required()
+                        ->reactive()
+                        ->live()
+                        ->afterStateUpdated(function ($state, Set $set) {
+                            $order = Order::find($state);
+                            $set('order_deadline', $order?->scheduled_date);
+                            $set('end_time', null);
+                        }),
                     DateTimePicker::make('start_time')
                         ->label('Thời gian khởi hành')
                         ->default(now())
                         ->native(false)
                         ->required()
-                        ->reactive(),
+                        ->reactive()
+                        ->live()
+                        ->minDate(now())
+                        ->maxDate(function (Get $get) {
+                            $orderId = $get('order_id');
+                            return $orderId ? Order::find($orderId)?->scheduled_date : null;
+                        })
+                        ->afterStateUpdated(function ($state, Set $set, Get $get) {
+                            $deadline = Order::find($get('order_id'))?->scheduled_date;
+
+                            if ($deadline && $state > $deadline) {
+                                $set('start_time', $deadline);
+                            }
+                        }),
 
                     DateTimePicker::make('end_time')
                         ->label('Thời gian đến dự kiến (ETA)')
                         ->native(false)
+                        ->required()
                         ->minDate(fn(Get $get) => $get('start_time') ?? now())
-                        ->helperText('Dựa trên khoảng cách ước tính của lộ trình.'),
+                        ->maxDate(function (Get $get) {
+                            $orderId = $get('order_id');
+                            if (!$orderId)
+                                return null;
+
+                            return Order::find($orderId)?->scheduled_date;
+                        })
+                        ->after('start_time')
+                        ->helperText(function (Get $get) {
+                            $orderId = $get('order_id');
+                            if (!$orderId)
+                                return 'Dựa trên khoảng cách ước tính.';
+
+                            $deadline = Order::find($orderId)?->scheduled_date;
+                            return $deadline
+                                ? "Lưu ý: Phải giao trước " . \Carbon\Carbon::parse($deadline)->format('d/m/Y H:i')
+                                : 'Dựa trên khoảng cách ước tính.';
+                        }),
 
                     Select::make('status')
                         ->label('Trạng thái vận hành')
