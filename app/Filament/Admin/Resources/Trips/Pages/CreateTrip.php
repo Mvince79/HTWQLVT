@@ -9,6 +9,7 @@ use Illuminate\Validation\ValidationException;
 use App\Models\Driver;
 use App\Services\TripConflictValidator;
 use Carbon\Carbon;
+use App\Models\Vehicle;
 
 class CreateTrip extends CreateRecord
 {
@@ -19,6 +20,7 @@ class CreateTrip extends CreateRecord
         return DB::transaction(function () use ($data) {
 
             Driver::where('id', $data['driver_id'])->lockForUpdate()->first();
+            Vehicle::where('id', $data['vehicle_id'])->lockForUpdate()->first();
 
             $start = Carbon::parse($data['start_time']);
             $end = Carbon::parse($data['end_time']);

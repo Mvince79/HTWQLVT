@@ -28,6 +28,10 @@ class UserForm
                                         'admin' => 'Quản trị viên',
                                         'driver' => 'Tài xế',
                                     ])->required(),
+                                TextInput::make('password')
+                                    ->password()
+                                    ->required(fn($context) => $context === 'create')
+                                    ->dehydrated(fn($state, $context) => $context === 'create' || filled($state))
                             ]),
                     ]),
 
@@ -41,6 +45,7 @@ class UserForm
                             ->label('Kích hoạt tài khoản')
                             ->default(true),
                     ]),
+
             ]);
     }
 }
