@@ -41,7 +41,12 @@ class Vehicle extends Model
     ];
 
     // ================= RELATIONSHIPS =================
-
+    public function activeTrip()
+    {
+        return $this->hasOne(Trip::class)
+            ->whereIn('status', ['not_started', 'in_progress'])
+            ->latest();
+    }
     /**
      * 1 xe có nhiều chuyến
      */

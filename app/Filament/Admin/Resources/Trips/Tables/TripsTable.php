@@ -84,7 +84,7 @@ class TripsTable
                     ->action(function ($record) {
                         $record->update([
                             'status' => 'in_progress',
-                            'start_time' => now(),
+                            'start_time' => now('Asia/Ho_Chi_Minh'),
                         ]);
 
                         if ($record->driver) {

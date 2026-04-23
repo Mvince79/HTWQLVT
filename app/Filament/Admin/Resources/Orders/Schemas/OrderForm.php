@@ -26,11 +26,19 @@ class OrderForm
                 TextInput::make('cargo_weight')
                     ->label('Trọng lượng')
                     ->numeric()
+                    ->minValue(1)
+                    ->maxValue(50000)
+                    ->suffix('kg')
                     ->required(),
 
                 TextInput::make('price')
                     ->label('Giá')
-                    ->numeric(),
+                    ->numeric()
+                    ->numeric()
+                    ->minValue(0)
+                    ->maxValue(999999999)
+                    ->prefix('₫'),
+
 
                 DateTimePicker::make('scheduled_date')
                     ->label('Thời hạn giao hàng (Deadline)')

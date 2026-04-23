@@ -15,9 +15,9 @@ class Driver extends Model
     protected $fillable = [
         'user_id',
         'phone',
-        'license_number',
-        'license_type',
-        'license_expiry',
+        'license_number',// số bằng lái giấy phép lái xe
+        'license_type',// B2, C, FC
+        'license_expiry',// ngày hết hạn bằng lái
         'status',
         'working_status',
     ];
@@ -26,6 +26,21 @@ class Driver extends Model
         'license_expiry' => 'date',
     ];
 
+    public function getPhoneAttribute($value): string
+    {
+        if (empty($value))
+            return 'Chưa có SĐT';
+
+        // Bỏ tất cả ký tự không phải số
+        $phone = preg_replace('/[^0-9]/', '', $value);
+
+        // Chuẩn hóa đầu số
+        if (str_starts_with($phone, '84')) {
+            $phone = '0' . substr($phone, 2);
+        }
+
+        return $phone;
+    }
     // ================= RELATIONSHIPS =================
 
     public function user(): BelongsTo
